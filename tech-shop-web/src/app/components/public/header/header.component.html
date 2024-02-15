@@ -1,1 +1,203 @@
-<p>header works!</p>
+<header class="header">
+  <div class="header-middle sticky-header">
+    <div class="container">
+      <div class="header-left">
+        <button class="mobile-menu-toggler">
+          <span class="sr-only">Toggle mobile menu</span>
+          <i class="icon-bars"></i>
+        </button>
+
+        <a href="index.html" class="logo">
+          <img
+            src="assets/images/logo2.png"
+            alt="Logo"
+            width="105"
+            height="25"
+          />
+        </a>
+
+        <nav class="main-nav">
+          <ul class="menu sf-arrows">
+            <li class="megamenu-container active">
+              <a href="index.html" class="sf-with-ul">Home</a>
+            </li>
+            <li>
+              <a routerLink="/shop" class="sf-with-ul">SHOP</a>
+
+              <div class="megamenu megamenu-sm">
+                <div class="row no-gutters">
+                  <div class="col-md-6">
+                    <div class="menu-col">
+                      <div class="menu-title">Product Details</div>
+                      <!-- End .menu-title -->
+                      <ul>
+                        <li><a routerLink="/shop"></a></li>
+                      </ul>
+                    </div>
+                    <!-- End .menu-col -->
+                  </div>
+                  <!-- End .col-md-6 -->
+
+                  <div class="col-md-6">
+                    <div class="banner banner-overlay">
+                      <a>
+                        <img src="assets/images/shop.jpg" alt="Banner" />
+
+                        <div class="banner-content banner-content-bottom">
+                          <div class="banner-title text-white">
+                            New Trends <br /><span
+                              ><strong>spring 2019</strong></span
+                            >
+                          </div>
+                          <!-- End .banner-title -->
+                        </div>
+                        <!-- End .banner-content -->
+                      </a>
+                    </div>
+                    <!-- End .banner -->
+                  </div>
+                  <!-- End .col-md-6 -->
+                </div>
+                <!-- End .row -->
+              </div>
+              <!-- End .megamenu megamenu-sm -->
+            </li>
+
+            <li>
+              <a href="#trends" class="sf-with-ul">Trends</a>
+            </li>
+
+            <li>
+              <a routerLink="/view-blogs" class="sf-with-ul">Blog</a>
+            </li>
+
+            <li>
+              <a href="#feedbacks" class="sf-with-ul">FEEDBACKS</a>
+            </li>
+            <li>
+              <a href="contact.html" routerLink="/contact" class="sf-with-ul"
+                >Contact Us</a
+              >
+            </li>
+          </ul>
+          <!-- End .menu -->
+        </nav>
+        <!-- End .main-nav -->
+      </div>
+      <!-- End .header-left -->
+
+      <div class="header-right">
+        <div class="dropdown cart-dropdown">
+          <div class="header-search">
+            <a href="#" class="search-toggle" role="button" title="Search"
+              ><i class="icon-search"></i
+            ></a>
+            <form autocomplete="off" method="get">
+              <div class="header-search-wrapper">
+                <!-- <label for="q" class="sr-only">Search</label> -->
+                <input
+                  type="text"
+                  class="form-control"
+                  name="q"
+                  id="q"
+                  placeholder="Search in..."
+                />
+                <div class="dropdown-menu dropdown-menu-right">
+                  <div>
+                    <div class="product">
+                      <div class="product-cart-details">
+                        <h5 class="product-title">
+                          <a style="cursor: pointer">name</a>
+                        </h5>
+                        <br />
+                      </div>
+                      <!-- End .product-cart-details -->
+                      <figure class="product-image-container">
+                        <a style="cursor: pointer" class="product-image">
+                          <img src="assets/images/logo2.png" alt="product" />
+                        </a>
+                      </figure>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End .header-search-wrapper -->
+            </form>
+          </div>
+        </div>
+        <div class="header-right">
+          <a routerLink="/whislist" class="wishlist-link">
+            <i class="icon-heart-o"></i>
+            <span class="wishlist-count" style="margin-left: -8px">1</span>
+          </a>
+        </div>
+
+        <a routerLink="/account" class="wishlist-link">
+          <i class="icon-user"></i>
+        </a>
+
+        <div class="dropdown cart-dropdown">
+          <a
+            href="#"
+            class="dropdown-toggle"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            data-display="static"
+          >
+            <i class="icon-shopping-cart"></i>
+            <span class="cart-count">12</span>
+          </a>
+
+          <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-cart-products">
+              <div class="product">
+                <div class="product-cart-details">
+                  <h4 class="product-title">
+                    <a style="cursor: pointer">name</a>
+                  </h4>
+
+                  <span class="cart-product-info">
+                    <span class="cart-product-qty"></span> $12.5
+                  </span>
+                </div>
+                <!-- End .product-cart-details -->
+
+                <figure class="product-image-container">
+                  <a style="cursor: pointer" class="product-image">
+                    <img src="assets/images/logo2.png" alt="product" />
+                  </a>
+                </figure>
+                <a class="btn-remove" title="Remove Product"
+                  ><i class="icon-close"></i
+                ></a>
+              </div>
+              <!-- End .product -->
+            </div>
+            <!-- End .cart-product -->
+
+            <div class="dropdown-cart-total">
+              <span>Total</span>
+
+              <span class="cart-total-price">$12</span>
+            </div>
+            <!-- End .dropdown-cart-total -->
+
+            <div class="dropdown-cart-action">
+              <a style="cursor: pointer" class="btn btn-primary">View Cart</a>
+              <!-- <a style="color:#bf8040"  class="btn btn-outline-primary-2"><span>Checkout</span><i -->
+              <!-- class="icon-long-arrow-right"></i></a> -->
+            </div>
+            <!-- End .dropdown-cart-total -->
+          </div>
+          <!-- End .dropdown-menu -->
+        </div>
+        <!-- End .cart-dropdown -->
+      </div>
+      <!-- End .header-right -->
+    </div>
+    <!-- End .container -->
+  </div>
+</header>
+<!-- End .header -->
