@@ -9,6 +9,7 @@ import { AddProductsComponent } from './components/private/products/add-products
 import { EditUserComponent } from './components/public/edit-user/edit-user.component';
 import { ViewProductDetailsComponent } from './components/private/products/view-product-details/view-product-details.component';
 import { EditProductComponent } from './components/private/products/edit-product/edit-product.component';
+import { DashbordComponent } from './components/private/dashbord/dashbord.component';
 
 export const routes: Routes = [
   {
@@ -60,5 +61,10 @@ export const routes: Routes = [
     path: 'edit-product',
     component: EditProductComponent,
     title: 'edit-product',
+  },
+  {
+    path: 'dashbord',
+    component: DashbordComponent,
+    title: 'dashbord',
   },
 ];
