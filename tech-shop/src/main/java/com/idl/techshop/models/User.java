@@ -8,10 +8,11 @@ import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,7 @@ public class User {
 	@Size(max = 25)
 	private String lastName ;
 	
-	@Email 
+	@Email
 	private String email ;
 	
 	 @NotBlank
@@ -58,11 +59,4 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	  private Role role ;
 
-
-	
-	
-	
-	
-
-	
 }
