@@ -16,8 +16,6 @@ import java.util.List;
 @Entity
 @Table(name="Produit")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Product {
 
 
@@ -131,8 +129,20 @@ public class Product {
 	public ProductAvailabilityStatus getStatus() {
 		return status;
 	}
-	
-	
-    
 
+	public Product(Long id, @NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
+			List<ImageModel> images, int quantityInStock, ProductAvailabilityStatus status) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.prix = prix;
+		this.images = images;
+		this.quantityInStock = quantityInStock;
+		this.status = status;
+	}
+	public Product() {
+	
+	}
+	
+	
 }

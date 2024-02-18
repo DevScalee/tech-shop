@@ -17,14 +17,15 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Override
 	public Product saveProduct(Product product) {
-		Product newProduct = new Product (
+		/*Product newProduct = new Product (
 				product.getId(),
 				product.getName(),
 				product.getDescription(),
 				product.getPrix(),
 				product.getQuantityInStock(),
-				product.getStatus());
-		return productRepo.save(newProduct);
+				product.getStatus())
+*/
+		return productRepo.save(product);
 				
 	}
 
@@ -40,19 +41,24 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public void editProduct(Product product) {
-		Optional<Product> opProduct = productRepo.findProductById(product.getId());
+	public Product editProduct(Long id , Product product) throws Exception {
+		Optional<Product> opProduct = productRepo.findProductById(id);
 		if (opProduct.isPresent())
 		{
 			Product currentProduct = opProduct.get();
-			currentProduct.setId(product.getId());
 			currentProduct.setName(product.getName());
 			currentProduct.setDescription(product.getDescription());
 			currentProduct.setPrix(product.getPrix());
 			currentProduct.setQuantityInStock(product.getQuantityInStock());
 			currentProduct.setStatus(product.getStatus());
-		}
+			return currentProduct;
+		}else throw new Exception();
 		
+	}
+
+	@Override
+	public Optional<Product> findProduct(Long id) {
+		return productRepo.findProductById(id);
 	}
 
 }
