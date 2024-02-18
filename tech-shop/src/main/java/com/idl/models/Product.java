@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
@@ -67,5 +69,70 @@ public class Product {
     public void setStatus(ProductAvailabilityStatus status) {
         this.status = status;
     }
+
+	public Product(Long id, @NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
+			int quantityInStock, ProductAvailabilityStatus status) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.prix = prix;
+		this.quantityInStock = quantityInStock;
+		this.status = status;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getPrix() {
+		return prix;
+	}
+
+	public void setPrix(int prix) {
+		this.prix = prix;
+	}
+
+	public List<ImageModel> getImages() {
+		return images;
+	}
+
+	public void setImages(List<ImageModel> images) {
+		this.images = images;
+	}
+
+	public int getQuantityInStock() {
+		return quantityInStock;
+	}
+
+	public void setQuantityInStock(int quantityInStock) {
+		this.quantityInStock = quantityInStock;
+	}
+
+	public ProductAvailabilityStatus getStatus() {
+		return status;
+	}
+	
+	
+    
 
 }

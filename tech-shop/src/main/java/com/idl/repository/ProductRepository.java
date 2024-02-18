@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.idl.models.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
@@ -17,7 +18,8 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query("SELECT p FROM Product p WHERE p.name = :productName")
     Product findProductWithName(@Param("productName") String gameName);
 
+    
     Boolean existsByName(String name);
 
-    public Product findProductById(Long id);
+    public Optional<Product> findProductById(Long id);
 }
