@@ -20,22 +20,29 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="users")
 public class User {
-	
+
+
 	public User(Long id, @NotBlank @Size(max = 25) String name, @NotBlank @Size(max = 25) String lastName,
-			@Email String email, @NotBlank @Size(max = 120) String password, Boolean accountStatus, String resetToken,
-			String confirmToken, Role role) {
+				@Email String email, @NotBlank @Size(max = 120) String password,
+				String confirmToken, Role role ) {
 		this.id = id;
 		this.name = name;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.accountStatus = accountStatus;
-		this.resetToken = resetToken;
-		this.confirmToken = confirmToken;
+		this.confirmToken=confirmToken;
+
 		this.role = role;
 	}
-	
 
+	public User(Long id, String name, String lastName, String email, String password, Role role) {
+		this.id = id;
+		this.name = name;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,11 +65,8 @@ public class User {
 	 private String password;
 	  
 	  
-	  private Boolean accountStatus ;
 
-	  @Column(name="resetToken")
-	  private String resetToken;
-	  
+
 
 	  
 	@Column(name="confirmToken")
@@ -123,24 +127,7 @@ public class User {
 	}
 
 
-	public Boolean getAccountStatus() {
-		return accountStatus;
-	}
 
-
-	public void setAccountStatus(Boolean accountStatus) {
-		this.accountStatus = accountStatus;
-	}
-
-
-	public String getResetToken() {
-		return resetToken;
-	}
-
-
-	public void setResetToken(String resetToken) {
-		this.resetToken = resetToken;
-	}
 
 
 	public String getConfirmToken() {
@@ -167,6 +154,6 @@ public class User {
 	
 	}
 
-	
+
 	
 }

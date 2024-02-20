@@ -3,11 +3,18 @@ package com.idl.services;
 import java.util.List;
 
 import com.idl.models.User;
+import com.idl.models.Userr;
 
 
 public interface UserService {
-	User saveUser(User user);
+	void deleteUser(Long id) ;
 
-	List<User> findAllUsers();
 
+	Userr saveUser(Userr user);
+
+	List<Userr> findAllUsers();
+
+	Userr updateUser(Userr user);
+
+	
 }

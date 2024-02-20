@@ -3,13 +3,11 @@ package com.idl.controllers;
 import java.util.List;
 
 
+import com.idl.models.Userr;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.idl.models.User;
 import com.idl.services.UserService;
@@ -27,16 +25,34 @@ public class UserController {
 	UserService userS;
 	
 	@GetMapping("/users")
-	public List<User> getAllUsers() {
-		List<User> pro = userS.findAllUsers();
+	public List<Userr> getAllUsers() {
+		List<Userr> pro = userS.findAllUsers();
 
         return pro;
 	    
 	}
 
 	@PostMapping("/adduser")
-	public User createUser(@Valid @RequestBody User user) {
+	public Userr createUser(@Valid @RequestBody Userr user) {
 	    return userS.saveUser(user);
 	}
+
+	@PutMapping("/updateuser")
+	public ResponseEntity<Userr> updateUser(@RequestBody Userr user ) {
+		Userr updateUser = userS.updateUser(user);
+		return new ResponseEntity<>(updateUser, HttpStatus.OK);
+	}
+
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
+		userS.deleteUser(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+
+
+
+
 	
 }
