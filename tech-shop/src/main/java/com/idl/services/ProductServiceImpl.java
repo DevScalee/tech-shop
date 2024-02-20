@@ -44,20 +44,23 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public Product editProduct(Long id , Product product) throws Exception {
-		Optional<Product> opProduct = productRepo.findProductById(id);
-		if (opProduct.isPresent())
-		{
-			Product currentProduct = opProduct.get();
-			currentProduct.setName(product.getName());
-			currentProduct.setDescription(product.getDescription());
-			currentProduct.setPrix(product.getPrix());
-			currentProduct.setQuantityInStock(product.getQuantityInStock());
-			currentProduct.setStatus(product.getStatus());
-			return currentProduct;
-		}else throw new Exception();
-		
-	}
+	 public Product editProduct(Long id, Product product) throws Exception {
+        Optional<Product> opProduct = productRepo.findProductById(id);
+        if (opProduct.isPresent()) {
+            Product currentProduct = opProduct.get();
+            currentProduct.setName(product.getName());
+            currentProduct.setDescription(product.getDescription());
+            currentProduct.setPrix(product.getPrix());
+            if (product.getImg() != null && !product.getImg().isEmpty()) {
+                currentProduct.setImg(product.getImg());
+            }
+            currentProduct.setQuantityInStock(product.getQuantityInStock());
+            currentProduct.setStatus(product.getStatus());
+            return productRepo.save(currentProduct); // Assuming you have a save method in your repository
+        } else {
+            throw new Exception("Product not found");
+        }
+    }
 
 	@Override
 	public Optional<Product> findProduct(Long id) {
