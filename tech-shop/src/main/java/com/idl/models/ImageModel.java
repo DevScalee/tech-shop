@@ -1,5 +1,6 @@
 package com.idl.models;
 
+	
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,22 @@ public class ImageModel {
 
     @ManyToOne
     private  Product product;
+    
+    public ImageModel(String name, String type, byte[] picByte) {
+    	this.name = name;
+		this.type = type;
+		this.picByte = picByte;
+	}
+    
+    public ImageModel(Long id,String name, String type, byte[] picByte) {
+		this.id=id;
+		this.name = name;
+		this.type = type;
+		this.picByte = picByte;
+	}
+    public ImageModel() {
+	
+	}
 
 	public Long getId() {
 		return id;
@@ -60,7 +77,8 @@ public class ImageModel {
 	public void setPicByte(byte[] picByte) {
 		this.picByte = picByte;
 	}
-
+	
+	
 	public Product getProduct() {
 		return product;
 	}
@@ -68,6 +86,8 @@ public class ImageModel {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	
+	
     
     
 }

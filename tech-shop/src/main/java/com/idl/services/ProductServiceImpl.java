@@ -9,23 +9,26 @@ import org.springframework.stereotype.Service;
 import com.idl.models.Product;
 import com.idl.repository.ProductRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	ProductRepository productRepo;
 	
-	@Override
+	@Transactional
 	public Product saveProduct(Product product) {
-		/*Product newProduct = new Product (
+		Product newProduct = new Product (
 				product.getId(),
 				product.getName(),
 				product.getDescription(),
 				product.getPrix(),
+				product.getImg(),
 				product.getQuantityInStock(),
-				product.getStatus())
-*/
-		return productRepo.save(product);
+				product.getStatus());
+
+		return productRepo.save(newProduct);
 				
 	}
 

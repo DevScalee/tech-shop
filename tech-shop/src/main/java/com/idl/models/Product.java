@@ -13,6 +13,8 @@ import lombok.SneakyThrows;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="Produit")
 @Data
@@ -32,12 +34,51 @@ public class Product {
 
     private int prix;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    /*
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImageModel> images = new ArrayList<>();
+    
+    public List<ImageModel> getImages() {
+		return images;
+	}
 
-  
+	public void setImages(List<ImageModel> images) {
+	    this.images.clear();
 
-    @Column(name="quantité en stock")
+	    this.images.addAll(images);
+
+	    for (ImageModel image : images) {
+	        image.setProduct(this);
+	    }
+	}
+
+
+	
+	  public void addImage(ImageModel image) {
+	        images.add(image);
+	        image.setProduct(this);
+	    }
+
+	    public void removeImage(ImageModel image) {
+	        images.remove(image);
+	        image.setProduct(null);
+	    }
+    */
+	 
+	 @Column(name = "picbyte",length=100000)
+      private List<byte[]> img ;
+      
+      
+
+    public List<byte[]> getImg() {
+		return img;
+	}
+
+	public void setImg(List<byte[]> img) {
+		this.img = img;
+	}
+
+	@Column(name="quantité en stock")
     private int quantityInStock;
 
     @Enumerated(EnumType.STRING)
@@ -110,13 +151,7 @@ public class Product {
 		this.prix = prix;
 	}
 
-	public List<ImageModel> getImages() {
-		return images;
-	}
-
-	public void setImages(List<ImageModel> images) {
-		this.images = images;
-	}
+	
 
 	public int getQuantityInStock() {
 		return quantityInStock;
@@ -131,18 +166,30 @@ public class Product {
 	}
 
 	public Product(Long id, @NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
-			List<ImageModel> images, int quantityInStock, ProductAvailabilityStatus status) {
+			List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.prix = prix;
-		this.images = images;
+		this.img = images;
 		this.quantityInStock = quantityInStock;
 		this.status = status;
 	}
+	public Product(@NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
+			List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status) {
+		this.name = name;
+		this.description = description;
+		this.prix = prix;
+		this.img = images;
+		this.quantityInStock = quantityInStock;
+		this.status = status;
+	}
+	
 	public Product() {
 	
 	}
+	
+	
 	
 	
 }

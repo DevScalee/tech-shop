@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import com.idl.services.ProductService;
+import com.idl.models.ImageModel;
 import com.idl.models.Product;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.MediaType;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,12 +35,17 @@ public class ProductController {
 	    public List<Product> getAllProducts() {
 	        return productService.findAllProdcuts();
 	    }
+	   
 	    
-	    @PostMapping("/addproduct")
-	    public ResponseEntity<Product> addProduct(@RequestBody Product product)
-	    {
-	    	Product newProduct = productService.saveProduct(product);
-	    	return new ResponseEntity<>(newProduct,HttpStatus.CREATED);
+	    @PostMapping(value="/addproduct", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	    public Product addProduct(@RequestPart Product product, @RequestPart("images") List<MultipartFile> files) throws IOException {
+	        List<byte[]> images = new ArrayList<>();
+
+	       for (MultipartFile file : files) {
+	        	images.add(file.getBytes());
+	        }
+	       product.setImg(images);
+	        return productService.saveProduct(product);
 	    }
 	    
 	    @DeleteMapping("/deleteproduct/{id}")
