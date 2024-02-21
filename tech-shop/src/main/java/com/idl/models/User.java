@@ -22,19 +22,50 @@ import lombok.NoArgsConstructor;
 public class User {
 	
 	public User(Long id, @NotBlank @Size(max = 25) String name, @NotBlank @Size(max = 25) String lastName,
-			@Email String email, @NotBlank @Size(max = 120) String password, Boolean accountStatus, String resetToken,
+			@Email String email, @NotBlank @Size(max = 120) String password,String phoneNumber,String address , Boolean accountStatus, String resetToken,
 			String confirmToken, Role role) {
 		this.id = id;
 		this.name = name;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.phoneNumber=phoneNumber;
+		this.address=address;
 		this.accountStatus = accountStatus;
 		this.resetToken = resetToken;
 		this.confirmToken = confirmToken;
 		this.role = role;
 	}
+
+	public User( @NotBlank @Size(max = 25) String name, @NotBlank @Size(max = 25) String lastName,
+			@Email String email, @NotBlank @Size(max = 120) String password,String phoneNumber,String address , Boolean accountStatus, 
+			 Role role) {
+		this.name = name;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.phoneNumber=phoneNumber;
+		this.address=address;
+		this.accountStatus = accountStatus;
+		this.role = role;
+	}
+	public User( Long id, @NotBlank @Size(max = 25) String name, @NotBlank @Size(max = 25) String lastName,
+			@Email String email, @NotBlank @Size(max = 120) String password,String phoneNumber,String address , Boolean accountStatus, 
+			 Role role) {
+		this.id = id;
+		this.name = name;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.phoneNumber=phoneNumber;
+		this.address=address;
+		this.accountStatus = accountStatus;
+		this.role = role;
+	}
 	
+	public User() {
+		
+	}
 
 
 	@Id
@@ -57,6 +88,34 @@ public class User {
 	 @Size(max = 120)
 	 private String password;
 	  
+	 @NotBlank
+	 private String phoneNumber;
+	 
+	 public String getPhoneNumber() {
+			return phoneNumber;
+		}
+
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+	public String getUsername() {
+		return email;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+
+	@NotBlank
+	 private String address;
 	  
 	  private Boolean accountStatus ;
 
@@ -163,9 +222,7 @@ public class User {
 	}
 
 
-	public User() {
 	
-	}
 
 	
 	
