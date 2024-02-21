@@ -10,6 +10,8 @@ import { EditUserComponent } from './components/public/edit-user/edit-user.compo
 import { ViewProductDetailsComponent } from './components/private/products/view-product-details/view-product-details.component';
 import { EditProductComponent } from './components/private/products/edit-product/edit-product.component';
 import { DashbordComponent } from './components/private/dashbord/dashbord.component';
+import { AdminHeaderComponent } from './components/private/admin-header/admin-header.component';
+import { ViewProductsComponent } from './components/private/products/view-products/view-products.component';
 
 export const routes: Routes = [
   {
@@ -66,5 +68,15 @@ export const routes: Routes = [
     path: 'dashbord',
     component: DashbordComponent,
     title: 'dashbord',
+  },
+  {
+    path: 'admin-header',
+    component: AdminHeaderComponent,
+    title: 'admin-header',
+  },
+  {
+    path: 'view-products',
+    component: ViewProductsComponent,
+    title: 'view-products',
   },
 ];
