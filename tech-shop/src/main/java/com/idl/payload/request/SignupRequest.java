@@ -11,11 +11,11 @@ public class SignupRequest {
 
 	  @NotBlank
 	  @Size(min = 3, max = 20)
-	  private String firstname;
+	  private String name;
 	  
 	  @NotBlank
 	  @Size(min = 3, max = 20)
-	  private String lastname;
+	  private String lastName;
 
 	  @NotBlank
 	  @Size(max = 50)
@@ -34,24 +34,24 @@ public class SignupRequest {
 	  
 	  @NotBlank
 	  @Size(min = 3, max = 20)
-	  private String phonenumber;
+	  private String phoneNumber;
 	  
 	  private Role role;
 
-	public String getFirstname() {
-		return firstname;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setName(String firstname) {
+		this.name = firstname;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getLastName() {
+		return lastName;
 	}
 
 	public void setLastname(String lastname) {
-		this.lastname = lastname;
+		this.lastName = lastname;
 	}
 
 	public String getEmail() {
@@ -78,12 +78,12 @@ public class SignupRequest {
 		this.address = address;
 	}
 
-	public String getPhonenumber() {
-		return phonenumber;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setPhonenumber(String phonenumber) {
-		this.phonenumber = phonenumber;
+	public void setPhoneNumber(String phonenumber) {
+		this.phoneNumber = phonenumber;
 	}
 
 	public Role getRole() {

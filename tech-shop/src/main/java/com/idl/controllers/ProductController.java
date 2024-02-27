@@ -15,15 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import com.idl.services.ProductService;
-import com.idl.models.ImageModel;
+import com.idl.models.Category;
 import com.idl.models.Product;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.MediaType;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins="*", maxAge=3600)
@@ -68,4 +66,22 @@ public class ProductController {
 	         }
 	    	
 	    }
+	    
+	    @GetMapping("/product/search")
+		public ResponseEntity<?> searProducts(@RequestParam String searchTerm) {
+		    try {
+		        List<Product> products = productService.searchProduct(searchTerm);
+		        return ResponseEntity.ok(products);
+		    } catch (Exception e) {
+		        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No matching result!");
+		    }
+		}
+	    
+	    @GetMapping("/categories")
+	    public List<Category> getAllCategories() {
+	        return productService.findAllCategories();
+	    }
+	    
+	   
+	    
 }

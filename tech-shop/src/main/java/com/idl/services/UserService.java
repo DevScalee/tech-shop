@@ -19,5 +19,6 @@ public interface UserService {
     Optional<User> getUserById(Long id);
 	User updateUser(Long id,User user) throws Exception;
 
-
+	
+	public List<User> searchUser(String itemSearch)  throws Exception;
 }
