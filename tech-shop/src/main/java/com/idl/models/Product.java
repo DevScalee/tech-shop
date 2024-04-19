@@ -3,17 +3,10 @@ package com.idl.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.SneakyThrows;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="Produit")
@@ -31,9 +24,17 @@ public class Product {
 
     @NotBlank
     private String description;
-
+    @NotBlank
     private int prix;
 
+    @NotBlank
+	@Column(name="quantité en stock")
+    private int quantityInStock;
+    
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+    
     /*
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImageModel> images = new ArrayList<>();
@@ -78,8 +79,6 @@ public class Product {
 		this.img = img;
 	}
 
-	@Column(name="quantité en stock")
-    private int quantityInStock;
 
     @Enumerated(EnumType.STRING)
     private ProductAvailabilityStatus status;
@@ -164,9 +163,19 @@ public class Product {
 	public ProductAvailabilityStatus getStatus() {
 		return status;
 	}
+	
+	
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 	public Product(Long id, @NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
-			List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status) {
+			List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status, Category category) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -174,15 +183,19 @@ public class Product {
 		this.img = images;
 		this.quantityInStock = quantityInStock;
 		this.status = status;
+		this.category=category;
+
 	}
+	
 	public Product(@NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
-			List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status) {
+			List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status, Category category) {
 		this.name = name;
 		this.description = description;
 		this.prix = prix;
 		this.img = images;
 		this.quantityInStock = quantityInStock;
 		this.status = status;
+		this.category=category;
 	}
 	
 	public Product() {
