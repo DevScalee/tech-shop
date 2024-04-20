@@ -30,4 +30,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 		       "LOWER(u.phoneNumber) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
 		List<User> searchUsers(@Param("searchTerm") String searchTerm);
 
+
+	  User findByToken(String token);
+
+
 }

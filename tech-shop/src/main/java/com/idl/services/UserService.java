@@ -21,4 +21,9 @@ public interface UserService {
 
 	
 	public List<User> searchUser(String itemSearch)  throws Exception;
+
+
+	String forgotPassword(String email);
+
+	public String resetPassword(String token, String password);
 }

@@ -17,6 +17,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name="users")
 public class User {
@@ -90,6 +92,11 @@ public class User {
 	  
 	 @NotBlank
 	 private String phoneNumber;
+
+	 private String token;
+
+	@Column(columnDefinition = "TIMESTAMP")
+	private LocalDateTime tokenCreationDate;
 	 
 	 public String getPhoneNumber() {
 			return phoneNumber;
@@ -222,8 +229,34 @@ public class User {
 	}
 
 
-	
+	public String getToken() {
+		return token;
+	}
 
-	
-	
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public LocalDateTime getTokenCreationDate() {
+		return tokenCreationDate;
+	}
+
+	public void setTokenCreationDate(LocalDateTime tokenCreationDate) {
+		this.tokenCreationDate = tokenCreationDate;
+	}
+
+
+	public User(Long id, String name, String lastName, String email, String password, String phoneNumber, String token, LocalDateTime tokenCreationDate, String address, Boolean accountStatus, Role role) {
+		this.id = id;
+		this.name = name;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.phoneNumber = phoneNumber;
+		this.token = token;
+		this.tokenCreationDate = tokenCreationDate;
+		this.address = address;
+		this.accountStatus = accountStatus;
+		this.role = role;
+	}
 }

@@ -2,6 +2,8 @@ package com.idl.controllers;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.idl.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,11 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.idl.models.User;
 import com.idl.payload.request.LoginRequest;
@@ -33,7 +31,11 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api")
 public class AuthController {
-	
+
+
+	@Autowired
+	UserService userS;
+
 	@Autowired
 	  AuthenticationManager authenticationManager;
 
@@ -94,6 +96,25 @@ public class AuthController {
 
 			return ResponseEntity.ok(new MessageResponse("User registration successful.!"));
 		}
+
+
+	@PostMapping("/forgot-password")
+	public String forgotPassword(@RequestParam String email) {
+
+		String response = userS.forgotPassword(email);
+
+		if (!response.startsWith("Invalid")) {
+			response = "http://localhost:9050/api/reset-password?token=" + response;
+		}
+		return response;
+	}
+
+	@PutMapping("/reset-password")
+	public String resetPassword(@RequestParam String token,
+								@RequestParam String password) {
+
+		return userS.resetPassword(token, password);
+	}
 
 
 }
