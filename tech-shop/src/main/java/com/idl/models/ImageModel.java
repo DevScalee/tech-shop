@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Table(name="Image")
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class ImageModel {
 
     @Id

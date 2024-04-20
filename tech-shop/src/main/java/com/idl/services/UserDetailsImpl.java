@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,6 +21,9 @@ public class UserDetailsImpl implements UserService,UserDetails {
 	  @Autowired
 	  private UserRepository userRepository;
 	  
+	  @Autowired
+	  PasswordEncoder encoder;
+	
 	  private static final long serialVersionUID = 1L;
 
 	  private Long id;
@@ -171,7 +175,7 @@ public class UserDetailsImpl implements UserService,UserDetails {
 	        existingUser.setName(user.getName());
 	        existingUser.setLastName(user.getLastName());
 	        existingUser.setEmail(user.getEmail());
-	        existingUser.setPassword(user.getPassword()); 
+	        existingUser.setPassword(encoder.encode(user.getPassword())); 
 	        existingUser.setPhoneNumber(user.getPhoneNumber());
 	        existingUser.setAddress(user.getAddress());
 
@@ -188,6 +192,16 @@ public class UserDetailsImpl implements UserService,UserDetails {
 	@Override
 	public List<User> findAllUsers() {
 		return userRepository.findAll();
+	}
+	
+	@Override
+	public List<User> searchUser(String itemSearch) throws Exception {
+	    List<User> searchedUsers = userRepository.searchUsers(itemSearch);
+	    if (!searchedUsers.isEmpty()) {
+	        return searchedUsers;
+	    } else {
+	        throw new Exception();
+	    }
 	}
 
 	

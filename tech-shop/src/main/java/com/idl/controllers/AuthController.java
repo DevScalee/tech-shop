@@ -82,9 +82,9 @@ public class AuthController {
 			}
 			
 			
-			 User user = new User(signUpRequest.getFirstname(),signUpRequest.getLastname(),
+			 User user = new User(signUpRequest.getName(),signUpRequest.getLastName(),
 		               signUpRequest.getEmail(),
-		               encoder.encode(signUpRequest.getPassword()), signUpRequest.getPhonenumber(), signUpRequest.getAddress(),true,
+		               encoder.encode(signUpRequest.getPassword()), signUpRequest.getPhoneNumber(), signUpRequest.getAddress(),true,
 		              signUpRequest.getRole());
 
 				
@@ -92,7 +92,7 @@ public class AuthController {
 			
 			userRepository.save(user);
 
-			return ResponseEntity.ok(new MessageResponse("Réussite de l'inscription de l'utilisateur.!"));
+			return ResponseEntity.ok(new MessageResponse("User registration successful.!"));
 		}
 
 

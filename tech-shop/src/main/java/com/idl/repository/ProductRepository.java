@@ -22,4 +22,12 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     Boolean existsByName(String name);
 
     public Optional<Product> findProductById(Long id);
+   
+    
+    @Query("SELECT p FROM Product p WHERE " +
+            "LOWER(p.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(p.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(CAST(p.prix AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(CAST(p.quantityInStock AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+     List<Product> searchProducts(@Param("searchTerm") String searchTerm);
 }
