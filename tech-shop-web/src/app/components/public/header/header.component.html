@@ -11,8 +11,8 @@
           <img
             src="assets/images/logo2.png"
             alt="Logo"
-            width="105"
-            height="25"
+            width="200"
+            height="30"
           />
         </a>
 
@@ -22,7 +22,7 @@
               <a href="index.html" class="sf-with-ul">Home</a>
             </li>
             <li>
-              <a routerLink="/shop" class="sf-with-ul">SHOP</a>
+              <a href="/shop" class="sf-with-ul">SHOP</a>
 
               <div class="megamenu megamenu-sm">
                 <div class="row no-gutters">
@@ -31,7 +31,9 @@
                       <div class="menu-title">Product Details</div>
                       <!-- End .menu-title -->
                       <ul>
-                        <li><a routerLink="/shop"></a></li>
+                        <li *ngFor="let i of category">
+                          <a href="product.html">{{ i.name }}</a>
+                        </li>
                       </ul>
                     </div>
                     <!-- End .menu-col -->
@@ -40,17 +42,9 @@
 
                   <div class="col-md-6">
                     <div class="banner banner-overlay">
-                      <a>
+                      <a href="category.html">
                         <img src="assets/images/shop.jpg" alt="Banner" />
 
-                        <div class="banner-content banner-content-bottom">
-                          <div class="banner-title text-white">
-                            New Trends <br /><span
-                              ><strong>spring 2019</strong></span
-                            >
-                          </div>
-                          <!-- End .banner-title -->
-                        </div>
                         <!-- End .banner-content -->
                       </a>
                     </div>
@@ -63,21 +57,12 @@
               <!-- End .megamenu megamenu-sm -->
             </li>
 
-            <li>
-              <a href="#trends" class="sf-with-ul">Trends</a>
-            </li>
+            <!-- <li>
+              <a routerLink="/blog" class="sf-with-ul">Blog</a>
+            </li> -->
 
             <li>
-              <a routerLink="/view-blogs" class="sf-with-ul">Blog</a>
-            </li>
-
-            <li>
-              <a href="#feedbacks" class="sf-with-ul">FEEDBACKS</a>
-            </li>
-            <li>
-              <a href="contact.html" routerLink="/contact" class="sf-with-ul"
-                >Contact Us</a
-              >
+              <a href="contact" class="sf-with-ul">Contact Us</a>
             </li>
           </ul>
           <!-- End .menu -->
@@ -101,20 +86,24 @@
                   name="q"
                   id="q"
                   placeholder="Search in..."
+                  [(ngModel)]="filterTerm"
                 />
                 <div class="dropdown-menu dropdown-menu-right">
-                  <div>
+                  <div *ngFor="let i of product | filter : filterTerm">
                     <div class="product">
                       <div class="product-cart-details">
                         <h5 class="product-title">
-                          <a style="cursor: pointer">name</a>
+                          <a href="product.html">{{ i.name }}</a>
                         </h5>
                         <br />
                       </div>
                       <!-- End .product-cart-details -->
                       <figure class="product-image-container">
-                        <a style="cursor: pointer" class="product-image">
-                          <img src="assets/images/logo2.png" alt="product" />
+                        <a href="product.html" class="product-image">
+                          <img
+                            src="/assets/images/back/{{ i.img }}"
+                            alt="product"
+                          />
                         </a>
                       </figure>
                     </div>
@@ -125,14 +114,16 @@
             </form>
           </div>
         </div>
-        <div class="header-right">
-          <a routerLink="/whislist" class="wishlist-link">
+        <!-- <div class="header-right">
+          <a href="wishlist.html" class="wishlist-link">
             <i class="icon-heart-o"></i>
-            <span class="wishlist-count" style="margin-left: -8px">1</span>
+            <span class="wishlist-count" style="margin-left: -8px">{{
+              whish_number
+            }}</span>
           </a>
-        </div>
+        </div> -->
 
-        <a routerLink="/account" class="wishlist-link">
+        <a routerLink="/account" class="wishlist-link" (click)="User()">
           <i class="icon-user"></i>
         </a>
 
@@ -147,29 +138,32 @@
             data-display="static"
           >
             <i class="icon-shopping-cart"></i>
-            <span class="cart-count">12</span>
+            <span class="cart-count">{{ number }}</span>
           </a>
 
           <div class="dropdown-menu dropdown-menu-right">
-            <div class="dropdown-cart-products">
+            <div *ngFor="let i of panier" class="dropdown-cart-products">
               <div class="product">
                 <div class="product-cart-details">
                   <h4 class="product-title">
-                    <a style="cursor: pointer">name</a>
+                    <a href="product.html">{{ i.name }}</a>
                   </h4>
 
                   <span class="cart-product-info">
-                    <span class="cart-product-qty"></span> $12.5
+                    <span class="cart-product-qty"></span> {{ i.total }}
                   </span>
                 </div>
                 <!-- End .product-cart-details -->
 
                 <figure class="product-image-container">
-                  <a style="cursor: pointer" class="product-image">
-                    <img src="assets/images/logo2.png" alt="product" />
+                  <a href="product.html" class="product-image">
+                    <img src="{{ i.img }}" alt="product" />
                   </a>
                 </figure>
-                <a class="btn-remove" title="Remove Product"
+                <a
+                  (click)="DeleteProduct(i)"
+                  class="btn-remove"
+                  title="Remove Product"
                   ><i class="icon-close"></i
                 ></a>
               </div>
@@ -180,12 +174,17 @@
             <div class="dropdown-cart-total">
               <span>Total</span>
 
-              <span class="cart-total-price">$12</span>
+              <span class="cart-total-price">{{ price }}</span>
             </div>
             <!-- End .dropdown-cart-total -->
 
             <div class="dropdown-cart-action">
-              <a style="cursor: pointer" class="btn btn-primary">View Cart</a>
+              <a
+                style="cursor: pointer"
+                (click)="viewCart()"
+                class="btn btn-primary"
+                >View Cart</a
+              >
               <!-- <a style="color:#bf8040"  class="btn btn-outline-primary-2"><span>Checkout</span><i -->
               <!-- class="icon-long-arrow-right"></i></a> -->
             </div>
