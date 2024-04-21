@@ -47,7 +47,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public Product editProduct(Long id , Product product) throws Exception {
-		Optional<Product> opProduct = productRepo.findProductById(id);
+		Optional<Product> opProduct = productRepo.findById(id);
 		if (opProduct.isPresent())
 		{
 			Product currentProduct = opProduct.get();
@@ -106,6 +106,12 @@ public class ProductServiceImpl implements ProductService{
 			currentCategory.setName(category.getName());
 			return currentCategory;
 		}else throw new Exception();
+	}
+
+	@Override
+	public Product addProduct(Product product) {
+		return productRepo.save(product);
+
 	}
 
 }

@@ -20,4 +20,5 @@ public interface ProductService {
 	void deleteCategory(Long id);
 	Category editCategory(Long id,Category category) throws Exception;
 
+	Product addProduct(Product product);
 }

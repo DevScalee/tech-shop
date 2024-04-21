@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins="*", maxAge=3600)
@@ -30,6 +31,8 @@ public class ProductController {
 	
 	 @Autowired
 	    private ProductService productService;
+
+
 
 	    @GetMapping("/products")
 	    public List<Product> getAllProducts() {
@@ -48,6 +51,12 @@ public class ProductController {
 	        return productService.saveProduct(product);
 	    }
 	    
+	@PostMapping("/add")
+	public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+		Product addedProduct = productService.addProduct(product);
+		return ResponseEntity.status(HttpStatus.CREATED).body(addedProduct);
+	}
+
 	    @DeleteMapping("/deleteproduct/{id}")
 	    public ResponseEntity<Product> deleteProduct(@PathVariable Long id)
 	    {
@@ -76,12 +85,40 @@ public class ProductController {
 		        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No matching result!");
 		    }
 		}
-	    
-	    @GetMapping("/categories")
-	    public List<Category> getAllCategories() {
-	        return productService.findAllCategories();
-	    }
-	    
-	   
-	    
+
+
+
+
+	@GetMapping("/categories")
+	public ResponseEntity<List<Category>> getAllCategories() {
+		List<Category> categories = productService.findAllCategories();
+		return ResponseEntity.ok(categories);
+	}
+
+	@GetMapping("/{categoryId}")
+	public ResponseEntity<Optional<Category>> getCategoryById(@PathVariable Long categoryId) {
+		Optional<Category> category = productService.findCategory(categoryId);
+		return ResponseEntity.ok(category);
+	}
+
+	@PostMapping
+	public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+		Category createdCategory = productService.saveCategory(category);
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
+	}
+
+	@PutMapping("/{categoryId}")
+	public ResponseEntity<Category> updateCategory(@PathVariable Long categoryId,
+												   @RequestBody Category category) throws Exception {
+		Category updatedCategory = productService.editCategory(categoryId, category);
+		return ResponseEntity.ok(updatedCategory);
+	}
+
+	@DeleteMapping("/{categoryId}")
+	public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
+		productService.deleteCategory(categoryId);
+		return ResponseEntity.ok("Category with ID " + categoryId + " has been deleted successfully.");
+	}
+
 }

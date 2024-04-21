@@ -1,8 +1,9 @@
 package com.idl.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;
 import java.util.ArrayList;
@@ -11,29 +12,34 @@ import java.util.List;
 @Entity
 @Table(name="Produit")
 @Data
+@AllArgsConstructor
 public class Product {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @NotBlank
-    @Size(max = 20)
-    private String name;
+	@NotBlank
+	@Size(max = 20)
+	private String name;
 
-    @NotBlank
-    private String description;
-    @NotBlank
-    private int prix;
+	@NotBlank
+	private String description;
 
-    @NotBlank
+	private int prix;
+
 	@Column(name="quantité en stock")
-    private int quantityInStock;
-    
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+	private int quantityInStock;
+
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
+	
+	@OneToMany(mappedBy = "product", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	private List<CartItem> products = new ArrayList<>();
+	
+	
     
     /*
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -65,13 +71,19 @@ public class Product {
 	        image.setProduct(null);
 	    }
     */
-	 
-	 @Column(name = "picbyte",length=100000)
-      private List<byte[]> img ;
-      
-      
 
-    public List<byte[]> getImg() {
+	public List<CartItem> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<CartItem> products) {
+		this.products = products;
+	}
+
+	@Column(name = "picbyte",length=100000)
+	private List<byte[]> img ;
+
+	public List<byte[]> getImg() {
 		return img;
 	}
 
@@ -79,37 +91,36 @@ public class Product {
 		this.img = img;
 	}
 
+	@Enumerated(EnumType.STRING)
+	private ProductAvailabilityStatus status;
 
-    @Enumerated(EnumType.STRING)
-    private ProductAvailabilityStatus status;
+	public void updateProductStatus()
+	{
+		if(quantityInStock==0)
+			setStatus(ProductAvailabilityStatus.OUT_OF_STOCK);
+		else if (quantityInStock<=10) {
+			setStatus(ProductAvailabilityStatus.CRITICAL);
+		}
+		else setStatus(ProductAvailabilityStatus.IN_STOCK);
+	}
 
-    public void updateProductStatus()
-    {
-        if(quantityInStock==0)
-            setStatus(ProductAvailabilityStatus.OUT_OF_STOCK);
-        else if (quantityInStock<=10) {
-            setStatus(ProductAvailabilityStatus.CRITICAL);
-        }
-        else setStatus(ProductAvailabilityStatus.IN_STOCK);
-    }
-
-    @SneakyThrows
-    public void purchase(int quantity) throws Exception {
-        if(quantity<quantityInStock)
-            quantityInStock=-quantity;
-        else throw new Exception("Not enough quatity availabe");
-    }
-    public void restock (int quatity)
-    {
-        quantityInStock=+quatity;
-        updateProductStatus();
-    }
-    public void setStatus(ProductAvailabilityStatus status) {
-        this.status = status;
-    }
+	@SneakyThrows
+	public void purchase(int quantity) throws Exception {
+		if(quantity<quantityInStock)
+			quantityInStock=-quantity;
+		else throw new Exception("Not enough quatity availabe");
+	}
+	public void restock (int quatity)
+	{
+		quantityInStock=+quatity;
+		updateProductStatus();
+	}
+	public void setStatus(ProductAvailabilityStatus status) {
+		this.status = status;
+	}
 
 	public Product(Long id, @NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
-			int quantityInStock, ProductAvailabilityStatus status) {
+				   int quantityInStock, ProductAvailabilityStatus status) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -118,12 +129,14 @@ public class Product {
 		this.status = status;
 	}
 
+	
+
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setProductId(Long productId) {
+		this.id = productId;
 	}
 
 	public String getName() {
@@ -150,7 +163,7 @@ public class Product {
 		this.prix = prix;
 	}
 
-	
+
 
 	public int getQuantityInStock() {
 		return quantityInStock;
@@ -163,8 +176,8 @@ public class Product {
 	public ProductAvailabilityStatus getStatus() {
 		return status;
 	}
-	
-	
+
+
 
 	public Category getCategory() {
 		return category;
@@ -175,7 +188,7 @@ public class Product {
 	}
 
 	public Product(Long id, @NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
-			List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status, Category category) {
+				   List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status, Category category) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -186,9 +199,9 @@ public class Product {
 		this.category=category;
 
 	}
-	
+
 	public Product(@NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
-			List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status, Category category) {
+				   List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status, Category category) {
 		this.name = name;
 		this.description = description;
 		this.prix = prix;
@@ -197,12 +210,21 @@ public class Product {
 		this.status = status;
 		this.category=category;
 	}
-	
-	public Product() {
-	
+
+	public Product(String name, String description, int prix, int quantityInStock, ProductAvailabilityStatus status, Category category) {
+		this.name = name;
+		this.description = description;
+		this.prix = prix;
+		this.quantityInStock = quantityInStock;
+		this.status = status;
+		this.category = category;
 	}
-	
-	
-	
-	
+
+	public Product() {
+
+	}
+
+
+
+
 }
