@@ -1,5 +1,7 @@
 package com.idl.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.Size;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="Produit")
+@Table(name="products")
 @Data
 @AllArgsConstructor
 public class Product {
@@ -18,7 +20,7 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long productId;
 
 	@NotBlank
 	@Size(max = 20)
@@ -32,10 +34,13 @@ public class Product {
 	@Column(name="quantité en stock")
 	private int quantityInStock;
 
+
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
-	
+
+	@JsonIgnore
+	@JsonManagedReference
 	@OneToMany(mappedBy = "product", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private List<CartItem> products = new ArrayList<>();
 	
@@ -121,7 +126,7 @@ public class Product {
 
 	public Product(Long id, @NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
 				   int quantityInStock, ProductAvailabilityStatus status) {
-		this.id = id;
+		this.productId = id;
 		this.name = name;
 		this.description = description;
 		this.prix = prix;
@@ -132,11 +137,11 @@ public class Product {
 	
 
 	public Long getId() {
-		return id;
+		return productId;
 	}
 
 	public void setProductId(Long productId) {
-		this.id = productId;
+		this.productId = productId;
 	}
 
 	public String getName() {
@@ -189,7 +194,7 @@ public class Product {
 
 	public Product(Long id, @NotBlank @Size(max = 20) String name, @NotBlank String description, int prix,
 				   List<byte[]> images, int quantityInStock, ProductAvailabilityStatus status, Category category) {
-		this.id = id;
+		this.productId = id;
 		this.name = name;
 		this.description = description;
 		this.prix = prix;
@@ -224,6 +229,16 @@ public class Product {
 
 	}
 
+
+	public Product(Long productId, @NotBlank @Size(max = 20) String name, @NotBlank String description, int prix, int quantityInStock,List<CartItem> products, ProductAvailabilityStatus status) {
+		this.productId = productId;
+		this.name = name;
+		this.description = description;
+		this.prix = prix;
+		this.quantityInStock = quantityInStock;
+		this.products = products;
+		this.status = status;
+	}
 
 
 

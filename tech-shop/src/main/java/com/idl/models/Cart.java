@@ -1,4 +1,6 @@
 package com.idl.models;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AccessLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,28 +8,40 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 
 
 @Entity
 @Data
-@Table(name = "carts")
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "carts")
 public class Cart {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Column(name="cartId")
+	private Long id;
 	
 
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "cart", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
 	private List<CartItem> cartItems = new ArrayList<>();
 
-    private Double totalPrice = 0.0;
+	private Double totalPrice = 0.0;
+
+	public Double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 
 	public Long getId() {
 		return id;
@@ -53,14 +67,5 @@ public class Cart {
 		this.cartItems = cartItems;
 	}
 
-	public Double getTotalPrice() {
-		return totalPrice;
-	}
 
-	public void setTotalPrice(Double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-    
-    
-    
 }

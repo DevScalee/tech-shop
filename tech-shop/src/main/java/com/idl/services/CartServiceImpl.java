@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -28,7 +29,6 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private CartItemRepository cartItemRepo;
 
-    @Override
     public Cart addProductToCart(Long cartId, Long productId, Integer quantity) {
         Cart cart = cartRepo.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart", "cartId", cartId));
@@ -39,29 +39,24 @@ public class CartServiceImpl implements CartService {
         CartItem cartItem = cartItemRepo.findCartItemByProductIdAndCartId(cartId, productId);
 
         if (cartItem != null) {
-            throw new APIException("Product " + product.getName() + " already exists in the cart");
+            // Update quantity of existing item
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+            cartItemRepo.save(cartItem);
+        } else {
+            // Create new cart item
+            if (product.getQuantityInStock() < quantity) {
+                throw new APIException("Please, make an order of the " + product.getName()
+                        + " less than or equal to the quantity " + product.getQuantityInStock() + ".");
+            }
+
+            CartItem newCartItem = new CartItem();
+            newCartItem.setProduct(product);
+            newCartItem.setCart(cart);
+            newCartItem.setQuantity(quantity);
+            cartItemRepo.save(newCartItem);
         }
 
-        if (product.getQuantityInStock() == 0) {
-            throw new APIException(product.getName() + " is not available");
-        }
-
-        if (product.getQuantityInStock() < quantity) {
-            throw new APIException("Please, make an order of the " + product.getName()
-                    + " less than or equal to the quantity " + product.getQuantityInStock() + ".");
-        }
-
-        CartItem newCartItem = new CartItem();
-
-        newCartItem.setProduct(product);
-        newCartItem.setCart(cart);
-        newCartItem.setQuantity(quantity);
-
-        // newCartItem.setProductPrice(product.getSpecialPrice());
-
-        cartItemRepo.save(newCartItem);
-
-        product.setQuantityInStock(product.getQuantityInStock() - quantity);
+        // Update total price of the cart
         cart.setTotalPrice(cart.getTotalPrice() + (product.getPrix() * quantity));
 
         return cart;
@@ -79,8 +74,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart getCart( Long cartId) {
-        Cart cart = cartRepo.findCartByCartId( cartId);
+    public Optional<Cart> getCart(Long cartId) {
+        Optional<Cart> cart = cartRepo.findById(cartId);
 
         if (cart == null) {
             throw new ResourceNotFoundException("Cart", "cartId", cartId);

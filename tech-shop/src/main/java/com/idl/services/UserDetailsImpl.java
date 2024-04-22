@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.idl.models.Cart;
+import com.idl.models.CartItem;
 import com.idl.models.User;
 import com.idl.repository.UserRepository;
 @Service
@@ -22,6 +24,10 @@ public class UserDetailsImpl implements UserService,UserDetails {
 	@Autowired
 	  private UserRepository userRepository;
 	  
+	
+	@Autowired
+	private CartService cartService;
+	
 	  @Autowired
 	  PasswordEncoder encoder;
 	
@@ -146,6 +152,9 @@ public class UserDetailsImpl implements UserService,UserDetails {
 	
 	@Override
 	public User saveUser(User user) {
+		Cart cart = new Cart();
+		//user.setCart(cart);
+		cart.setUser(user);
 		return userRepository.save(user);
 	}
 
@@ -159,7 +168,22 @@ public class UserDetailsImpl implements UserService,UserDetails {
 	}
 	@Override
 	public void deleteUser(Long id) {
-		userRepository.deleteById(id);	
+		Optional<User> user = userRepository.findById(id);
+		 if (user.isPresent()) {
+		        User existingUser = user.get();
+//		        List<CartItem> cartItems = existingUser.getCart().getCartItems();
+//				Long cartId = existingUser.getCart().getId();
+//
+//				cartItems.forEach(item -> {
+//
+//					Long productId = item.getProduct().getId();
+//
+//					cartService.deleteProductFromCart(cartId, productId);
+//				});
+				
+				userRepository.delete(existingUser);
+		 }
+
 	}
 	@Override
 	public Optional<User> getUserById(Long id) {

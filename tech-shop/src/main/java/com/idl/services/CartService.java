@@ -1,6 +1,7 @@
 package com.idl.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.idl.models.Cart;
 
@@ -9,7 +10,7 @@ public interface CartService {
 
     List<Cart> getAllCarts();
 
-    Cart getCart( Long cartId);
+    Optional<Cart> getCart(Long cartId);
 
     Cart updateProductQuantityInCart(Long cartId, Long productId, Integer quantity);
 

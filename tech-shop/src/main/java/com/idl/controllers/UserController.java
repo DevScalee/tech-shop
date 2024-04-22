@@ -39,7 +39,6 @@ public class UserController {
 	public List<User> getAllUsers() {
 		return userS.findAllUsers();
 
-	    
 	}
 	
 	

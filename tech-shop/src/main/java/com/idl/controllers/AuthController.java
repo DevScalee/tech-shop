@@ -3,6 +3,8 @@ package com.idl.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.idl.models.Cart;
+import com.idl.repository.CartRepository;
 import com.idl.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,65 +39,71 @@ public class AuthController {
 	UserService userS;
 
 	@Autowired
-	  AuthenticationManager authenticationManager;
+	CartRepository cartRepository;
+	@Autowired
+	AuthenticationManager authenticationManager;
 
-	  @Autowired
-	  UserRepository userRepository;
+	@Autowired
+	UserRepository userRepository;
 
-	  @Autowired
-	  PasswordEncoder encoder;
+	@Autowired
+	PasswordEncoder encoder;
 
-	  @Autowired
-	  JwtUtils jwtUtils;
-	  
-	  @PostMapping("/signin")
-		public ResponseEntity<?> authenticateUser (@Valid @RequestBody LoginRequest loginRequest) {
-			
-			Authentication authentication = authenticationManager.authenticate(
-			new UsernamePasswordAuthenticationToken(loginRequest.getEmail() , loginRequest.getPassword()));
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			String jwt = jwtUtils.generateJwtToken(authentication);
-			
-			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-			
-			List<String> roles = userDetails.getAuthorities().stream()
-					.map(item -> item.getAuthority())
-					.collect(Collectors.toList());
-			
-			return ResponseEntity.ok(new JwtResponse(jwt,
-					userDetails.getId(),
-					userDetails.getName(),
-					userDetails.getUsername(),
-					 roles) );
-			
-		}
-	  
-	  @PostMapping("/signup")
-		public ResponseEntity<?> registerUser (@Valid @RequestBody SignupRequest signUpRequest)
+	@Autowired
+	JwtUtils jwtUtils;
+
+	@PostMapping("/signin")
+	public ResponseEntity<?> authenticateUser (@Valid @RequestBody LoginRequest loginRequest) {
+
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getEmail() , loginRequest.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = jwtUtils.generateJwtToken(authentication);
+
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+		List<String> roles = userDetails.getAuthorities().stream()
+				.map(item -> item.getAuthority())
+				.collect(Collectors.toList());
+
+		return ResponseEntity.ok(new JwtResponse(jwt,
+				userDetails.getId(),
+				userDetails.getName(),
+				userDetails.getUsername(),
+				roles) );
+
+	}
+
+	@PostMapping("/signup")
+	public ResponseEntity<?> registerUser (@Valid @RequestBody SignupRequest signUpRequest)
+	{
+
+
+
+		if (userRepository.existsByEmail(signUpRequest.getEmail()))
 		{
-			
-			
-			
-			if (userRepository.existsByEmail(signUpRequest.getEmail()))
-			{
-				return ResponseEntity
-						.badRequest()
-						.body(new MessageResponse ("Erreur : email existe déjà ! "));
-			}
-			
-			
-			 User user = new User(signUpRequest.getName(),signUpRequest.getLastName(),
-		               signUpRequest.getEmail(),
-		               encoder.encode(signUpRequest.getPassword()), signUpRequest.getPhoneNumber(), signUpRequest.getAddress(),true,
-		              signUpRequest.getRole());
-
-				
-			  
-			
-			userRepository.save(user);
-
-			return ResponseEntity.ok(new MessageResponse("User registration successful.!"));
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse ("Erreur : email existe déjà ! "));
 		}
+
+
+		User user = new User(signUpRequest.getName(),signUpRequest.getLastName(),
+				signUpRequest.getEmail(),
+				encoder.encode(signUpRequest.getPassword()), signUpRequest.getPhoneNumber(), signUpRequest.getAddress(),true,
+				signUpRequest.getRole());
+
+
+		User registeredUser = userRepository.save(user);
+
+		// Create a cart for the user
+		Cart cart = new Cart();
+		cart.setUser(registeredUser);
+
+		Cart savedCart = cartRepository.save(cart);
+
+		return ResponseEntity.ok(new MessageResponse("User registration successful.!"));
+	}
 
 
 	@PostMapping("/forgot-password")

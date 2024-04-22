@@ -8,15 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/carts")
+@CrossOrigin(origins="*", maxAge=3600)
+@RequestMapping("/api")
 public class CartController {
 
     @Autowired
     private CartService cartService;
 
-    @PostMapping("/{cartId}/products/{productId}")
+    @PostMapping("/cart/{cartId}/products/{productId}")
     public ResponseEntity<Cart> addProductToCart(@PathVariable Long cartId,
                                                  @PathVariable Long productId,
                                                  @RequestParam Integer quantity) {
@@ -24,9 +26,9 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cart);
     }
 
-    @GetMapping("/{cartId}")
-    public ResponseEntity<Cart> getCart(@PathVariable Long cartId) {
-        Cart cart = cartService.getCart(cartId);
+    @GetMapping("/cart/{cartId}")
+    public ResponseEntity<Optional<Cart>> getCart(@PathVariable Long cartId) {
+        Optional<Cart> cart = cartService.getCart(cartId);
         return ResponseEntity.ok().body(cart);
     }
 
@@ -45,7 +47,7 @@ public class CartController {
         return ResponseEntity.ok().body(message);
     }
 
-    @GetMapping
+    @GetMapping("/carts")
     public ResponseEntity<List<Cart>> getAllCarts() {
         List<Cart> carts = cartService.getAllCarts();
         return ResponseEntity.ok().body(carts);

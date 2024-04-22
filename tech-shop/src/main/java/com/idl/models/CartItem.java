@@ -1,6 +1,7 @@
 package com.idl.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,12 +18,13 @@ public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long cartItemId;
 
+	@JsonBackReference
     @ManyToOne
 	@JoinColumn(name = "cart_id")
 	private Cart cart;
-	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
@@ -32,11 +34,11 @@ public class CartItem {
     private int quantity;
 
 	public Long getId() {
-		return id;
+		return cartItemId;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.cartItemId = id;
 	}
 
 	public Cart getCart() {
@@ -62,7 +64,6 @@ public class CartItem {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-    
-    
+
 
 }

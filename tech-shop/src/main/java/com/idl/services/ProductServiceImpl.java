@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Transactional
 	public Product saveProduct(Product product) {
-		Product newProduct = new Product (
+		Product newProduct = new Product(
 				product.getId(),
 				product.getName(),
 				product.getDescription(),
@@ -30,6 +30,7 @@ public class ProductServiceImpl implements ProductService{
 				product.getQuantityInStock(),
 				product.getStatus(),
 				product.getCategory());
+		
 		return productRepo.save(newProduct);
 				
 	}
@@ -57,7 +58,9 @@ public class ProductServiceImpl implements ProductService{
 			currentProduct.setQuantityInStock(product.getQuantityInStock());
 			currentProduct.setStatus(product.getStatus());
 			currentProduct.setCategory(product.getCategory());
-			return currentProduct;
+
+			Product updatedProduct = productRepo.save(currentProduct);
+			return updatedProduct;
 		}else throw new Exception();
 		
 	}

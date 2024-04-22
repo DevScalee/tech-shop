@@ -101,7 +101,7 @@ public class ProductController {
 		return ResponseEntity.ok(category);
 	}
 
-	@PostMapping
+	@PostMapping("/addcategory")
 	public ResponseEntity<Category> createCategory(@RequestBody Category category) {
 		Category createdCategory = productService.saveCategory(category);
 
