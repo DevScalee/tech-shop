@@ -60,7 +60,7 @@ export class WishlistComponent implements OnInit {
   getUser(id: any) {
     console.log('Here In Get User In Profil');
     this.userService.getUserById(id).subscribe((data) => {
-      this.user = data.user;
+      this.user = data;
       console.log('this is user :', this.user);
     });
   }

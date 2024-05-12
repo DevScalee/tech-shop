@@ -25,15 +25,15 @@ export class EditProductComponent implements OnInit {
   image : any ;
   productForm: FormGroup = new FormGroup({
     name: new FormControl(''),
-    price: new FormControl(''),
+    prix: new FormControl(''),
     categorie: new FormControl(''),
-    quantity: new FormControl(''),
+    quantityInStock: new FormControl(''),
     description: new FormControl(''),
-    img: new FormControl(''),
-    imgg: new FormControl(''),
-    solde: new FormControl(''),
-    remise: new FormControl(''),
-    detail: new FormControl('')
+    images: new FormControl(''),
+    // imgg: new FormControl(''),
+    // solde: new FormControl(''),
+    // remise: new FormControl(''),
+    // detail: new FormControl('')
     // new_price : new FormControl('')
   });
   constructor(private categoryService : CategoryService,
@@ -46,15 +46,15 @@ export class EditProductComponent implements OnInit {
 
     this.productForm = this.formBuilder.group({
       name: [''],
-      price: [''],
+      prix: [''],
       categorie: [''],
-      quantity: [''],
+      quantityInStock: [''],
       description: [''],
-      img: [''],
-      imgg: [''],
-      solde: [''],
-      remise: [''],
-      detail: ['']
+      images: [''],
+      // imgg: [''],
+      // solde: [''],
+      // remise: [''],
+      // detail: ['']
      
     })
 
@@ -68,77 +68,80 @@ export class EditProductComponent implements OnInit {
     console.log('get all categorys');
     this.categoryService.allCategory().subscribe(
       (data)=>{
-        this.cat = data.category;
-        this.number_category = data.nbr;
+        this.cat = data;
+     
       }
     )
   }
 
+  imageFile : any ;
   Getproduct(id : any){
     this.productService.getProductById(id).subscribe(
       (data)=>{
-        this.product = data.product ;
+        this.product = data ;
+        if (this.product.img && this.product.img.length > 0) {
+          this.product.imageSrc = `data:image/jpeg;base64,${this.product.img[0]}`;
+        }
+
+
         console.log(this.product);
       }
     )
   }
 
+
+  // EditProduct(){
+
+    
+  //   const formData :FormData = new FormData()
+  //   formData.set('product', new Blob([JSON.stringify(formValues)],{type :'application/json'}))
+  //   formData.append("images",this.imageFile)
+  // }
   EditProduct(){
     console.log('lll',this.imagePreview != "");
-    console.log('lll2',this.productForm.value.imgg != "");
-    var photo1 = (this.productForm.value.img !="" );
-    var photo2 = (this.productForm.value.imgg != "");
+   
+    var photo1 = (this.productForm.value.images !="" );
+   
   const v = this.checkData(this.product);
   if ( v == false){
     console.log('error');
   }
   else {
-    if( photo1 ==  false && photo2 == false){
-        console.log('edit l ktiba khw');
+    if( photo1 ==  false ){
+       
         this.Edit();
-        this.router.navigate([`products`]);
+         this.router.navigate([`products`]);
+       //  window.setTimeout(function(){location.reload()},2000)
+        // this.router.navigate([`products`]).then(() => {
         
+        //   window.location.reload();
+        // });
     }
-    else if (photo1 == true && photo2 == false ){
-        console.log('edit l taswira wa7da ') ;
-        this.Edit1();    
-        this.router.navigate([`products`]);  
-    }
-    else if (photo1 == true && photo2 == true ){
-      console.log('edite lel zouz');
-      this.productService.editProduct1(this.product, this.productForm.value.img).subscribe(
-        (data)=>{
-          console.log('edite fi wa7da ');
-          console.log(data.message);
-          this.productService.editProduct2(data.product, this.productForm.value.imgg).subscribe(
-            (result)=>{
-              console.log(result.message);
-              this.router.navigate([`products`]);
-            }
-          )
-        }
-      )
-    }
+
+
   }
   }
 
-  Edit(){
-    console.log('hey');
-  this.productService.editProduct(this.product).subscribe(
-    (data)=>{
-      console.log(data.message);
+   Edit(){
+
+    const formValues = this.product;
+    const formData :FormData = new FormData()
+    formData.set('product', new Blob([JSON.stringify(formValues)],{type :'application/json'}))
+    formData.append("images",this.imageFile)
+
+    console.log('this product',this.product)
+   this.productService.editProduct(formData, this.product.id).subscribe(
+    (data:any)=>{
+      this.router.navigate(['/products']).then(() => {
+        window.location.reload();
+      });
+
+      console.log('helloolelelelel')
+      console.log(data);
     }
   )
   }
 
-  Edit1(){
-    console.log('edite lel wa7da');
-    this.productService.editProduct1(this.product, this.productForm.value.img).subscribe(
-      (data)=>{
-        console.log(data.message);
-      }
-    )
-  }
   
   checkData(product: any) {
     var valide = true;
@@ -147,17 +150,12 @@ export class EditProductComponent implements OnInit {
       valide = false;
       this.ok = valide;
     }
-    else if (product.price == undefined) {
+    else if (product.prix == undefined) {
       this.msg = "Price is required !";
       valide = false;
       this.ok = false;
     }
-    else if (product.categorie == undefined) {
-      this.msg = "Category is required !";
-      valide = false;
-      this.ok = valide;
-    }
-    else if (product.quantity == undefined) {
+    else if (product.quantityInStock == undefined) {
       this.msg = "Quantity is required !";
       valide = false;
       this.ok = valide;
@@ -167,21 +165,6 @@ export class EditProductComponent implements OnInit {
       valide = false;
       this.ok = valide;
     }
-    else if (product.detail == undefined) {
-      this.msg = "Detail is required !";
-      valide = false;
-      this.ok = valide;
-    }
-    // else if (this.f == "" || this.f == undefined) {
-      // this.msg = "Photo 1 is required !";
-      // valide = false;
-      // this.ok = valide;
-    // }
-    // else if (this.ff == "" || this.ff == undefined) {
-      // this.msg = "Photo 2 is required !";
-      // valide = false;
-      // this.ok = valide;
-    // }
     else {
       valide = true;
     }
@@ -214,25 +197,12 @@ export class EditProductComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string
+      this.imageFile = file;
       console.log('image 1', file);
     };
     if (file) {
       reader.readAsDataURL(file);
     }
   }
-  onImageSelectedd(event: Event) {
-    const filee = (event.target as HTMLInputElement)?.files?.[0];
-    this.ff = filee;
-    this.productForm.patchValue({ imgg: filee });
-    console.log('filee', filee);
-    this.productForm.updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePrevieww = reader.result as string;
-      console.log('image 2', this.imagePrevieww);
-    };
-    if (filee) {
-      reader.readAsDataURL(filee);
-    }
-  }
+ 
 }

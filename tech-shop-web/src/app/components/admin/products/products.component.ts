@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ChangeDetectorRef } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Router } from '@angular/router';
@@ -15,17 +15,20 @@ export class ProductsComponent implements OnInit {
   id_product : any ;
 
   constructor(private productService : ProductService,
-              private router : Router) { }
+              private router : Router , private changeDetectorRefs :ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    
     this.GetAllProducts();
+    this.changeDetectorRefs.detectChanges();
    
   }
 
   GetAllProducts(){
+    
     this.productService.getAllproducts().subscribe(
       (data)=>{
-        this.products = data.products;
+        this.products = data;
       }
     )
   }
@@ -35,7 +38,7 @@ export class ProductsComponent implements OnInit {
     this.router.navigate([`view-product/${id}`]).then(
       ()=>{
         this.ngOnInit();
-        window.location.reload();
+       
       }
     )
   }
@@ -43,8 +46,7 @@ export class ProductsComponent implements OnInit {
   DeleteProduct(id : any){
     this.productService.deleteProduct(id).subscribe(
       (data)=>{
-        console.log(data.message);
-        this.ngOnInit();
+        window.location.reload();
       }
     )
   }

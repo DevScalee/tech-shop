@@ -43,10 +43,11 @@ export class OrdersComponent implements OnInit {
   getOrderId(id: any) {
     this.id_order = id;
   }
-
+user : any ;
   getUser(id: any, i: any) {
     this.userService.getUserById(id).subscribe((data) => {
-      this.id_user = data.user.fname + ' ' + data.user.lname;
+      this.user = data ;
+      this.id_user = this.user.fname + ' ' + this.user.lname;
       this.orders[i].user = this.id_user;
     });
     return this.id_user;
@@ -54,7 +55,8 @@ export class OrdersComponent implements OnInit {
 
   getUserSwap(id: String, i: any) {
     this.userService.getUserById(id).subscribe((data) => {
-      this.name_swap = data.user.fname + ' ' + data.user.lname;
+      this.user = data;
+      this.name_swap = this.user.name + ' ' + this.user.lastname;
       this.orders[i].user = this.id_user;
     });
     return this.id_user;

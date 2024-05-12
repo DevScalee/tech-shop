@@ -123,7 +123,7 @@ export class AddSwapComponent implements OnInit {
     console.log('get all categorys');
     this.categoryService.allCategory().subscribe((data) => {
       this.cat = data.category;
-      this.number_category = data.nbr;
+    //  this.number_category = data.nbr;
       console.log('caaaaa:', this.cat);
     });
   }

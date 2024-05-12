@@ -105,7 +105,7 @@ export class HeaderComponent implements OnInit {
     console.log('here in get all product ');
     this.productService.getAllproducts().subscribe(
       (data)=>{
-        this.product = data.products;
+        this.product = data;
         console.log(this.product);
       }
     )
@@ -133,9 +133,17 @@ export class HeaderComponent implements OnInit {
     console.log('here in get all categorys');
     this.categoryService.allCategory().subscribe(
       (data)=>{
-        this.category = data.category ;
+        this.category = data ;
       }
     )
+  }
+
+  viewProduct(id: any) {
+    console.log('Show Details of products :');
+    this.router.navigate([`view-product/${id}`]).then(() => {
+      this.ngOnInit();
+      window.location.reload();
+    });
   }
 
 }

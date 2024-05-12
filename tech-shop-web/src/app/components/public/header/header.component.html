@@ -93,17 +93,24 @@
                     <div class="product">
                       <div class="product-cart-details">
                         <h5 class="product-title">
-                          <a href="product.html">{{ i.name }}</a>
+                          <a
+                            style="cursor: pointer"
+                            (click)="viewProduct(i.id)"
+                            >{{ i.name }}</a
+                          >
                         </h5>
                         <br />
                       </div>
                       <!-- End .product-cart-details -->
                       <figure class="product-image-container">
-                        <a href="product.html" class="product-image">
+                        <a
+                          style="cursor: pointer"
+                          (click)="viewProduct(i.id)"
+                          class="product-image"
+                        >
                           <img
-                            src="/assets/images/back/{{ i.img }}"
-                            alt="product"
-                          />
+                          [src]="'data:image/jpeg;base64,' + i.img[0]"
+                           alt="product" />
                         </a>
                       </figure>
                     </div>
@@ -114,6 +121,7 @@
             </form>
           </div>
         </div>
+
         <!-- <div class="header-right">
           <a href="wishlist.html" class="wishlist-link">
             <i class="icon-heart-o"></i>

@@ -1,5 +1,6 @@
 package com.idl.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,6 +42,8 @@ public class User {
 	@Email
 	private String email ;
 
+
+
 	@NotBlank
 	@Size(max = 120)
 	private String password;
@@ -57,17 +60,18 @@ public class User {
 	private LocalDateTime tokenCreationDate;
 
 
-//	@OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
-//	private Cart cart;
+	@JsonManagedReference
+	@OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
+	private Cart cart;
 
 
-//	public Cart getCart() {
-//		return cart;
-//	}
+	public Cart getCart() {
+		return cart;
+	}
 //
-//	public void setCart(Cart cart) {
-//		this.cart = cart;
-//	}
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
 
 
 

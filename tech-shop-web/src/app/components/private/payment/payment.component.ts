@@ -60,7 +60,7 @@ export class PaymentComponent implements OnInit {
   GetUser(){
     this.userService.getUserById(this.id_user).subscribe(
       (data)=>{
-        this.user = data.user;
+        this.user = data;
       }
     )
   }

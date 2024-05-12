@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.idl.models.User;
@@ -12,7 +14,7 @@ import com.idl.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
-
+import java.util.Optional;
 
 
 @Service("userService")
@@ -30,5 +32,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     
     return UserDetailsImpl.build(user);
   }
+
+
+
+
+
+
 
 }

@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product,Long> {
 
     public List<Product> findAllByName(String name);
-
+    List<Product> findTop6ByOrderByIdDesc();
     @Query("SELECT p FROM Product p WHERE p.name = :productName")
     Product findProductWithName(@Param("productName") String gameName);
 

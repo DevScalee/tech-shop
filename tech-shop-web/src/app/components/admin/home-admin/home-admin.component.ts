@@ -76,7 +76,7 @@ export class HomeAdminComponent implements OnInit {
   GetNumberUser(){
     this.userService.getAllUsers().subscribe(
       (data)=>{
-        this.nbr_user = data.nbr ;
+        //this.nbr_user = data.nbr ;
       }
     )
   }
@@ -84,7 +84,7 @@ export class HomeAdminComponent implements OnInit {
   GetNumberProduct(){
     this.productService.getAllproducts().subscribe(
       (data)=>{
-        this.nbr_product = data.number;
+     //   this.nbr_product = data.number;
       }
     )
   }
@@ -110,9 +110,9 @@ export class HomeAdminComponent implements OnInit {
     this.categoryService.allCategory().subscribe(
       (data)=>{
         this.categorys = data.category;
-        this.number = data.nbr;
-       this.taritment(data.category , data.nbr);
-       this.trait(data.category , data.nbr);
+       // this.number = data.nbr;
+      // this.taritment(data.category , data.nbr);
+     //  this.trait(data.category , data.nbr);
       }
     )
   }

@@ -35,8 +35,10 @@ export class CustomersComponent implements OnInit {
   getUser(){
     this.userService.getAllUsers().subscribe(
       (data)=>{
-        this.users = data.users;
+        this.users = data ;
+        console.log('this is the user ', this.users);
         this.traitment();
+        
       }
     )
   }
@@ -77,7 +79,6 @@ export class CustomersComponent implements OnInit {
 
 
   Delete(email : any){
-
     this.userService.getUserByEmail(email).subscribe(
       (data)=>{
         this.deleted = data.user

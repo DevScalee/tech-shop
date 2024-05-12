@@ -23,12 +23,12 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label>First Name </label>
-                                <input type="text" [(ngModel)]='user.fname' [ngModelOptions]="{standalone:true}" class="form-control" required>
+                                <input type="text" [(ngModel)]='user.name' [ngModelOptions]="{standalone:true}" class="form-control" required>
                             </div><!-- End .col-sm-6 -->
 
                             <div class="col-sm-6">
                                 <label>Last Name </label>
-                                <input type="text" [(ngModel)]='user.lname' [ngModelOptions]="{standalone:true}" class="form-control" required>
+                                <input type="text" [(ngModel)]='user.lastName' [ngModelOptions]="{standalone:true}" class="form-control" required>
                             </div><!-- End .col-sm-6 -->
                         </div><!-- End .row -->
 
@@ -36,13 +36,13 @@
                         <input type="email" [(ngModel)]='user.email' [ngModelOptions]="{standalone:true}" class="form-control" required>
 
                         <label>Current password </label>
-		            						<input type="password"  [(ngModel)]='user.pwd'  [ngModelOptions]="{standalone:true}" placeholder="Your current password" class="form-control">
+		            						<input type="password"  [(ngModel)]='user.password'  [ngModelOptions]="{standalone:true}" placeholder="Your current password" class="form-control">
 
-		            						<label>New password (leave blank to leave unchanged)</label>
+		            						<!-- <label>New password (leave blank to leave unchanged)</label>
 		            						<input type="password" [(ngModel)]='user.new_pwd'  [ngModelOptions]="{standalone:true}"  class="form-control">
 
 		            						<label>Confirm new password (leave blank to leave unchanged)</label>
-		            						<input type="password" [(ngModel)]='user.confirm_pwd'  [ngModelOptions]="{standalone:true}" class="form-control mb-2">
+		            						<input type="password" [(ngModel)]='user.confirm_pwd'  [ngModelOptions]="{standalone:true}" class="form-control mb-2"> -->
                 
 
 
@@ -56,7 +56,7 @@
 
                             <div class="col-sm-6">
                                 <label>State / County </label>
-                                <input type="text" [(ngModel)]='user.country' [ngModelOptions]="{standalone:true}" class="form-control" required>
+                                <input type="text" [(ngModel)]='user.address' [ngModelOptions]="{standalone:true}" class="form-control" required>
                             </div><!-- End .col-sm-6 -->
                         </div><!-- End .row -->
 
@@ -68,7 +68,7 @@
 
                             <div class="col-sm-6">
                                 <label>Phone Number  </label>
-                                <input type="tel" [(ngModel)]='user.phone' [ngModelOptions]="{standalone:true}" class="form-control" required>
+                                <input type="tel" [(ngModel)]='user.phoneNumber' [ngModelOptions]="{standalone:true}" class="form-control" required>
                             </div><!-- End .col-sm-6 -->
                         </div><!-- End .row -->
                         <div style="color: red;">{{msg}}</div>
@@ -81,4 +81,6 @@
                             <i class="icon-long-arrow-right"></i>
                         </button>
                     </form><!-- End .contact-form -->
- <app-footer></app-footer>
+                </div></div></div></div></div>
+
+                <app-footer></app-footer>

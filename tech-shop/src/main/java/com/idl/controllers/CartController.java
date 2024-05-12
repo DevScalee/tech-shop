@@ -1,6 +1,7 @@
 package com.idl.controllers;
 
 import com.idl.models.Cart;
+import com.idl.models.User;
 import com.idl.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,4 +53,9 @@ public class CartController {
         List<Cart> carts = cartService.getAllCarts();
         return ResponseEntity.ok().body(carts);
     }
+
+
+
+
+
 }

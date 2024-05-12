@@ -36,7 +36,7 @@ export class ViewProductComponent implements OnInit {
   pro_remise: any;
   pro_name: any;
   pro_categorie: any;
-  pro_price: any;
+  price: Number=0;
   pro_description: any;
   pro_detail: any;
   new_solde: any;
@@ -89,7 +89,7 @@ export class ViewProductComponent implements OnInit {
     console.log('Here In Get User In Profil');
     this.userService.getUserById(id).subscribe(
       (data) => {
-        this.user = data.user;
+        this.user = data;
         this.avispro.name = this.user.fname + " " + this.user.lname;
         console.log('this is user :', this.user);
       }
@@ -98,23 +98,20 @@ export class ViewProductComponent implements OnInit {
 
 
   getProduct() {
-    console.log('Here in get Product From ID');
+  
     this.productService.getProductById(this.id_product).subscribe(
       (data) => {
-        console.log('here product :', data.product.quantity);
-        this.produit = data.product
+        this.produit = data
+this.price = this.produit.prix
+        
+        console.log('here product :', this.produit)
         // data.product.quantity = 0;
-        this.pro_remise = this.produit.remise;
-        this.pro_img = this.produit.img;
-        this.pro_imgg = this.produit.imgg;
+        this.pro_img = `data:image/jpeg;base64,${this.produit.img[0]}`;
         this.pro_name = this.produit.name;
         this.pro_categorie = this.produit.categorie;
-        this.pro_price = this.produit.price;
+        console.log('price ',this.price)
         this.pro_description = this.produit.description;
-        this.pro_detail = this.produit.detail;
-        if (this.produit.solde == true) {
-          this.new_solde = this.produit.price - (this.produit.remise * this.produit.price) / 100;
-        }
+        
         this.getPanier(data.product);
         this.getProductByCategory(this.produit);
       }

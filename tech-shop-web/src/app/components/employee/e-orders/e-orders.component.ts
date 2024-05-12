@@ -40,10 +40,12 @@ export class EOrdersComponent implements OnInit {
   getOrderId(id : any){
     this.id_order = id ;
   }
+  user: any ;
   getUser(id : any , i : any){
     this.userService.getUserById(id).subscribe(
       (data)=>{
-        this.id_user = data.user.fname +" "+data.user.lname ;
+this.user = data
+        this.id_user = this.user.name +" "+this.user.lastname ;
         this.orders[i].user = this.id_user ;
         
       }

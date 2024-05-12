@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
   getAllProduct() {
     console.log('here in get all product ');
     this.productService.getAllproducts().subscribe((data) => {
-      this.product = data.products;
+      this.product = data;
       console.log('hahahaha', this.product);
     });
   }
@@ -134,7 +134,7 @@ export class HomeComponent implements OnInit {
   GetAllCategory() {
     console.log('here in get all categorys');
     this.categoryService.allCategory().subscribe((data) => {
-      this.category = data.category;
+      this.category = data;
     });
   }
 }

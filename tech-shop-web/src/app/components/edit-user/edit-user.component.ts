@@ -18,15 +18,15 @@ export class EditUserComponent implements OnInit {
   msg: String = "";
   user: any;
   userForm: FormGroup = new FormGroup({
-    fname: new FormControl(''),
-    lname: new FormControl(''),
+    name: new FormControl(''),
+    lastName: new FormControl(''),
     email: new FormControl(''),
-    pwd: new FormControl(''),
+    password: new FormControl(''),
     new_pwd: new FormControl(''),
     confirm_pwd: new FormControl(''),
-    country: new FormControl(''),
+    address: new FormControl(''),
     city: new FormControl(''),
-    phone: new FormControl(''),
+    phoneNumber: new FormControl(''),
     postcode: new FormControl('')
 
   });
@@ -39,20 +39,22 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.userForm = this.formBuilder.group({
-      fname: [''],
-      lname: [''],
+      name: [''],
+      lastName: [''],
       email: [''],
-      pwd: [''],
+      password: [''],
       new_pwd: [''],
       confirm_pwd: [''],
       city: [''],
-      country: [''],
+      address: [''],
       postcode: [''],
-      phone: ['']
+      phoneNumber: ['']
     })
 
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.getUser(this.id);
+
+
 
 
   }
@@ -60,7 +62,9 @@ export class EditUserComponent implements OnInit {
   getUser(id: any) {
     this.userService.getUserById(id).subscribe(
       (data) => {
-        this.user = data.user;
+        this.user = data;
+        this.user.postcode = 2096
+        this.user.city = "Tunisie"
         console.log('user : ', this.user);
       }
     )
@@ -84,7 +88,7 @@ export class EditUserComponent implements OnInit {
      }
      }
     )
-     console.log('user.fname',user.fname);
+     console.log('user.fname',user.name);
      var v = false ;
     if (user.new_pwd != user.confirm_pwd){
       this.msg = "Confirm Your New Password !"
@@ -100,7 +104,7 @@ export class EditUserComponent implements OnInit {
     }
 
     var g = false ;
-    if(user.fname == "" || user.lname == ""){
+    if(user.name == "" || user.lastname == ""){
       this.msg = "Name is required !"
       g = false ;
       this.k = g;
@@ -115,7 +119,7 @@ export class EditUserComponent implements OnInit {
       g = false ;
       this.k = g;
     }
-    else if( user.country == ""){
+    else if( user.address == ""){
       this.msg="Country is Required ! ";
       g = false ;
       this.k = g;
@@ -125,7 +129,7 @@ export class EditUserComponent implements OnInit {
       g = false ;
       this.k = g;
     }
-    else if( user.phone == ""){
+    else if( user.phoneNumber == ""){
       this.msg="Phone Number is Required ! ";
       g = false ;
       this.k = g;
@@ -136,7 +140,7 @@ export class EditUserComponent implements OnInit {
     }
    }
   
-
+response : any ;
   EditUser() {
     this.checkData(this.user);
     console.log('this.ok :' ,this.ok);
@@ -145,13 +149,14 @@ export class EditUserComponent implements OnInit {
     if (this.ok ==true && this.valid == true && this.k == true) 
     {
       if (this.user.new_pwd != undefined){
-        this.user.pwd = this.user.new_pwd;
+        this.user.password = this.user.new_pwd;
       }
         console.log('Here my form values ', this.user);
         this.userService.editUser(this.user).subscribe(
           (data) => {
-            console.log(' here Data after editing', data.message);
-             this.router.navigate([`profile/${data.id}`]);
+            console.log(' here Data after editing', data);
+            this.response = data 
+             this.router.navigate([`profile/${this.response.id}`]);
           }
         );
       }

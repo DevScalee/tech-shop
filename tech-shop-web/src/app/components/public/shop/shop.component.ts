@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CategoryService } from 'src/app/services/category.service';
 import { PanierService } from 'src/app/services/panier.service';
@@ -19,35 +20,82 @@ export class ShopComponent implements OnInit {
   categ : any ;
   id_user : any ;
   p: number = 1;
+
+  productForm: FormGroup = new FormGroup({
+    name: new FormControl(''),
+    prix: new FormControl(''),
+    categorie: new FormControl(''),
+    quantityInStock: new FormControl(''),
+    description: new FormControl(''),
+    images: new FormControl('')
+  });
+
+
   constructor(private productService : ProductService,
               private router : Router,
               private categoryService : CategoryService,
               private whishlistService : WhishlistService,
-              private panierService : PanierService
+              private panierService : PanierService,
+              private formBuilder : FormBuilder
               ) { }
 
   ngOnInit(): void {
+
+
+    this.productForm = this.formBuilder.group({
+      name: [''],
+      prix: [''],
+      categorie: [''],
+      quantityInStock: [''],
+      description: [''],
+      images: [''],  
+    })
+
+
     this.id_user = localStorage.getItem("connectedUser");
     this.GetCategory();
     this.GetProduct();
     
   }
 
+  // GetProduct(){
+  //   console.log('get all products');
+  //   this.productService.GetProductInStock().subscribe(
+  //     (data)=>{
+  //       this.products = data.products;
+  //       console.log('products',this.products);
+  //     }
+  //   )
+  // }
+
+ 
   GetProduct(){
-    console.log('get all products');
-    this.productService.GetProductInStock().subscribe(
-      (data)=>{
-        this.products = data.products;
-        console.log('products',this.products);
-      }
-    )
+    
+    this.productService.getAllproducts().subscribe({
+      next: (data) => {
+        this.products = data;
+        // .map(data => {
+        //   // Check if the img property exists and has at least one element
+        //   if (product.img && product.img.length > 0) {
+        //     // Assign the first image's Base64 string as a data URL
+        //     product.imageSrc = `data:image/jpeg;base64,${product.img[0]}`;
+        //   } else {
+        //     // Optionally, assign a default image if no image is found
+        //     product.imageSrc = 'path/to/default/image.jpg'; // Adjust the path as necessary
+        //   }
+        //   return product;
+       // });
+      },
+      error: (err) => console.error('Error loading products:', err)
+     
+    });
   }
 
   GetCategory(){
     console.log('Get All Category');
     this.categoryService.allCategory().subscribe(
       (result)=>{
-        this.category = result.category;
+        this.category = result;
         console.log('category :',this.category);
       }
     )

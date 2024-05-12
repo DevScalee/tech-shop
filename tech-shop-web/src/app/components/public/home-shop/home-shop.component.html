@@ -7,15 +7,19 @@
             <div class="col-6 col-md-4 col-lg-3" *ngFor="let p of product">
                 <div class="product product-7 text-center">
                     <figure class="product-media">
-                        <span class="product-label label-new" *ngIf="p.solde">{{p.remise}} %</span>
+                       
                         <a style="cursor : pointer" (click)="viewProduct(p._id)">
-                            <img src="{{p.img}}" alt="Product image" class="product-image">
-                            <img src="{{p.imgg}}" alt="Product image" class="product-image-hover">
+                            <img 
+                            [src]="'data:image/jpeg;base64,' + p.img[0]"
+                             alt="Product image" class="product-image">
+                            <img 
+                            [src]="'data:image/jpeg;base64,' + p.img[0]"
+                             alt="Product image" class="product-image-hover">
                         </a>
 
                         <div class="product-action-vertical">
-                            <a style="cursor: pointer;" (click)="addWishlist(p)" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            <a style="cursor : pointer" (click)="viewProduct(p._id)" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                            <!-- <a style="cursor: pointer;" (click)="addWishlist(p)" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a> -->
+                            <a style="cursor : pointer" (click)="viewProduct(p.id)" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
 
                         </div>
                         <!-- End .product-action-vertical -->
@@ -34,12 +38,9 @@
                         <!-- End .product-cat -->
                         <h3 class="product-title"><a href="product.html">{{p.name}}</a></h3>
                         <!-- End .product-title -->
-                        <div class="product-price" *ngIf="p.solde">
-                            <span class="new-price">Now ${{p.new_price}}</span>
-                            <span class="old-price">Was ${{p.price}}</span>
-                        </div>
-                        <div class="product-price" *ngIf="!p.solde" >
-                         <span style="color: #c96; font-size: 16px" >   ${{p.price}} </span>
+                      
+                        <div class="product-price"  >
+                         <span style="color: #c96; font-size: 16px" >   ${{p.prix}} </span>
                         </div>
                         <!-- End .product-price -->
                     </div>

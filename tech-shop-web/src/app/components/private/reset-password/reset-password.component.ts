@@ -54,7 +54,7 @@ export class ResetPasswordComponent implements OnInit {
       this.user.pwd = this.resetPasswordForm.value.password;
       this.userService.editUser(this.user).subscribe(
         (data)=>{
-          console.log(data.message);
+        //  console.log(data.message);
           this.router.navigate(['account']);
         }
       )

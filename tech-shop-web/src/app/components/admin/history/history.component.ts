@@ -34,11 +34,11 @@ export class HistoryComponent implements OnInit {
     
     }
   }
-
+user : any ;
   getUser(id : any , i : any){
     this.userService.getUserById(id).subscribe(
       (data)=>{
-        this.id_user = data.user.fname +" "+data.user.lname ;
+        this.id_user = this.user.name +" "+this.user.lastname ;
         this.orders[i].user = this.id_user ;
         
       }

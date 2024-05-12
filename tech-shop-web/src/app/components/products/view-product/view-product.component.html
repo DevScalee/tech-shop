@@ -62,9 +62,7 @@
               <div class="product-gallery product-gallery-vertical">
                 <div class="row">
                   <figure class="product-main-image">
-                    <span *ngIf="pro_remise" class="product-label label-sale">
-                      % {{ produit.remise }} sale</span
-                    >
+                    
                     <div class="zoom-without-container">
                       <img src="{{ pro_img }}" alt="zoom" />
                     </div>
@@ -94,11 +92,11 @@
 
                     <a
                       class="product-gallery-item"
-                      href="{{ pro_imgg }}"
+                      href="{{ pro_img }}"
                       data-image="assets/images/product/aa.jpg"
                       style="margin-top: 10px"
                     >
-                      <img src="{{ pro_imgg }}" alt="product cross" />
+                      <img src="{{ pro_img}}" alt="product cross" />
                     </a>
                   </div>
                   <!-- End .product-image-gallery -->
@@ -115,10 +113,10 @@
                 <h1 class="product-title">{{ pro_name }}</h1>
                 <!-- End .product-title -->
 
-                <div class="ratings-container">
+                <!-- <div class="ratings-container">
                   <div *ngFor="let in of counter(stars); let i = index">
                     <img src="/assets/images/nejma.png" />
-                    <!-- <p>{{i}}</p> -->
+                     <p>{{i}}</p> 
                   </div>
 
                   <div *ngFor="let in of counter(5 - stars); let j = index">
@@ -126,33 +124,24 @@
                       src="/assets/images/star.png"
                       style="margin-top: -1.5px"
                     />
-                    <!-- <p>{{i}}</p> -->
+                     <p>{{i}}</p> 
                   </div>
 
-                  <a
-                    class="ratings-text"
-                    href="#product-review-link"
-                    id="review-link"
-                    >( {{ number_review }} Reviews )</a
-                  >
-                </div>
+                 
+                </div> -->
                 <!-- End .rating-container -->
 
                 <div class="product-price">
-                  <span class="new-price" *ngIf="pro_remise"
-                    >$ {{ new_solde }}</span
-                  >
-                  <span class="old-price" *ngIf="pro_remise"
-                    >Was ${{ pro_price }}</span
-                  >
-                  <div class="product-price" *ngIf="!pro_remise">
-                    ${{ pro_price }}
+                  price :    {{price}}
+                 
+                  <div class="product-price" >
+               
                   </div>
                 </div>
                 <!-- End .product-price -->
 
                 <div class="product-content">
-                  <p>-{{ pro_description }}</p>
+                  
                 </div>
                 <!-- End .product-content -->
 
@@ -260,7 +249,7 @@
             >
               <div class="product-desc-content">
                 <h3>Product Information</h3>
-                <p>{{ pro_detail }}</p>
+                <p>{{ pro_description }}</p>
               </div>
               <!-- End .product-desc-content -->
             </div>

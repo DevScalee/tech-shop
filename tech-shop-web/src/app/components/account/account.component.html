@@ -63,7 +63,7 @@
                     <label for="singin-password-2">Password *</label>
                     <input
                       type="password"
-                      [(ngModel)]="user.pwd"
+                      [(ngModel)]="user.password"
                       [ngModelOptions]="{ standalone: true }"
                       class="form-control"
                       id="singin-password-2"
@@ -104,8 +104,8 @@
                       <label>Your First Name *</label>
                       <input
                         type="text"
-                        [(ngModel)]="user.fname"
-                        formControlName="fname"
+                        [(ngModel)]="user.name"
+                        formControlName="name"
                         class="form-control"
                         required
                       />
@@ -116,8 +116,8 @@
                       <label>Your Last Name *</label>
                       <input
                         type="text"
-                        [(ngModel)]="user.lname"
-                        formControlName="lname"
+                        [(ngModel)]="user.lastname"
+                        formControlName="lastname"
                         class="form-control"
                         required
                       />
@@ -144,8 +144,8 @@
                     <label for="register-password-2">Password *</label>
                     <input
                       type="password"
-                      [(ngModel)]="user.pwd"
-                      formControlName="pwd"
+                      [(ngModel)]="user.password"
+                      formControlName="password"
                       class="form-control"
                       required
                     />
@@ -160,7 +160,7 @@
                       [(ngModel)]="user.confirm_pwd"
                       formControlName="confirm_pwd"
                       id="confirm_pwd"
-                      name="confirm-password"
+                      name="confirm-pwd"
                       required
                     />
                   </div>
@@ -183,8 +183,8 @@
                       <label>State / Country *</label>
                       <input
                         type="text"
-                        [(ngModel)]="user.country"
-                        formControlName="country"
+                        [(ngModel)]="user.address"
+                        formControlName="address"
                         class="form-control"
                         required
                       />
@@ -210,8 +210,8 @@
                       <label>Phone Number *</label>
                       <input
                         type="tel"
-                        [(ngModel)]="user.phone"
-                        formControlName="phone"
+                        [(ngModel)]="user.phoneNumber"
+                        formControlName="phoneNumber"
                         class="form-control"
                         required
                       />

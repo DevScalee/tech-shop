@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.idl.models.Product;
 import com.idl.models.User;
 import com.idl.services.UserService;
 
@@ -55,16 +54,27 @@ public class UserController {
 	}
 
 	@PutMapping("/updateuser/{id}")
-	public ResponseEntity<?> updateUser(@PathVariable Long id,@RequestBody User user ) {
+	public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable Long id ) {
 	    
 	    	 try {
-	             User editUser = userS.updateUser(id,user);
+
+	             User editUser = userS.updateUser(user, id);
 	             return ResponseEntity.ok(editUser);
 	         } catch (Exception e) {
 	             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
 	         }
 	    	
 	    }
+
+	@PostMapping("/updatepassword")
+	public String getencoderPassword(@RequestParam Long password) {
+		String encode;
+		encode = encoder.encode(password.toString());
+		return encode;
+	}
+
+
+
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {

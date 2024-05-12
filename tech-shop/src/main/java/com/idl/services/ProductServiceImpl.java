@@ -1,6 +1,8 @@
 package com.idl.services;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +48,8 @@ public class ProductServiceImpl implements ProductService{
 		
 	}
 
+
+
 	@Override
 	public Product editProduct(Long id , Product product) throws Exception {
 		Optional<Product> opProduct = productRepo.findById(id);
@@ -55,6 +59,7 @@ public class ProductServiceImpl implements ProductService{
 			currentProduct.setName(product.getName());
 			currentProduct.setDescription(product.getDescription());
 			currentProduct.setPrix(product.getPrix());
+			currentProduct.setImg(product.getImg());
 			currentProduct.setQuantityInStock(product.getQuantityInStock());
 			currentProduct.setStatus(product.getStatus());
 			currentProduct.setCategory(product.getCategory());
@@ -62,9 +67,8 @@ public class ProductServiceImpl implements ProductService{
 			Product updatedProduct = productRepo.save(currentProduct);
 			return updatedProduct;
 		}else throw new Exception();
-		
-	}
 
+	}
 	@Override
 	public Optional<Product> findProduct(Long id) {
 		return productRepo.findProductById(id);
@@ -116,5 +120,17 @@ public class ProductServiceImpl implements ProductService{
 		return productRepo.save(product);
 
 	}
+
+	public List<Product> getLatestProducts() {
+		List<Product> allProducts = productRepo.findTop6ByOrderByIdDesc();
+
+		List<Product> latestProducts = allProducts.stream()
+				.limit(6)
+				.collect(Collectors.toList());
+
+		return latestProducts;
+	}
+
+
 
 }

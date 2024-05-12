@@ -5,20 +5,20 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class CategoryService {
-  categoryUrl: string = 'http://localhost:3001';
+  categoryUrl: string = 'http://localhost:9050';
 
   constructor(private httpClient: HttpClient) {}
 
   AddCategory(category: any) {
     return this.httpClient.post<{ message: any }>(
-      `${this.categoryUrl}/api/category/add`,
+      `${this.categoryUrl}/api/addcategory`,
       category
     );
   }
 
   allCategory() {
-    return this.httpClient.get<{ category: any; nbr: any }>(
-      `${this.categoryUrl}/api/category/all`
+    return this.httpClient.get<{ category: any }>(
+      `${this.categoryUrl}/api/categories`
     );
   }
 

@@ -1,57 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  productUrl: string = 'http://localhost:3001';
+  productUrl: string = 'http://localhost:9050';
 
   constructor(private httpClient: HttpClient) {}
 
-  addProduct(product: any, img: File) {
-    let formData = new FormData();
-    formData.append('name', product.name);
-    formData.append('price', product.price);
-    formData.append('categorie', product.categorie);
-    formData.append('quantity', product.quantity);
-    formData.append('description', product.description);
-    formData.append('detail', product.detail);
-    formData.append('img', img);
-    formData.append('new_price', product.new_price);
-    formData.append('solde', product.solde);
-    formData.append('remise', product.remise);
-    return this.httpClient.post<{ message: String; product: any }>(
-      `${this.productUrl}/api/products/products/add`,
-      formData
-    );
-  }
 
-  adMenu(product: any, imgg: File) {
-    let formData = new FormData();
-    formData.append('name', product.name);
-    formData.append('price', product.price);
-    formData.append('categorie', product.categorie);
-    formData.append('quantity', product.quantity);
-    formData.append('description', product.description);
-    formData.append('img', product.img);
-    formData.append('detail', product.detail);
-    formData.append('solde', product.solde);
-    formData.append('remise', product.remise);
-    formData.append('new_price', product.new_price);
-    formData.append('imgg', imgg);
-    return this.httpClient.post<{ message: String; product: any }>(
-      `${this.productUrl}/api/products/upload`,
-      formData
-    );
-  }
+addProduct(formData:FormData):Observable<Object> {
+  return this.httpClient.post( `${this.productUrl}/api/addproduct`,formData)
+}
 
-  editProduct(product: any) {
-    return this.httpClient.put<{ message: String }>(
-      `${this.productUrl}/api/products/editt/${product._id}`,
-      product
-    );
-  }
+
+
+
 
   editProduct1(product: any, img: File) {
     let formData = new FormData();
@@ -71,28 +37,17 @@ export class ProductService {
     );
   }
 
-  editProduct2(product: any, imgg: File) {
-    let formData = new FormData();
-    formData.append('name', product.name);
-    formData.append('price', product.price);
-    formData.append('categorie', product.categorie);
-    formData.append('quantity', product.quantity);
-    formData.append('description', product.description);
-    formData.append('img', product.img);
-    formData.append('detail', product.detail);
-    formData.append('solde', product.solde);
-    formData.append('remise', product.remise);
-    formData.append('new_price', product.new_price);
-    formData.append('imgg', imgg);
-    return this.httpClient.put<{ message: String }>(
-      `${this.productUrl}/api/products/edit2/${product._id}`,
+  editProduct(formData : FormData, id : any){
+    return this.httpClient.put<{ product:any}>(
+      `${this.productUrl}/api/updateproduct/${id}`,
       formData
     );
   }
+ 
 
   getAllproducts() {
-    return this.httpClient.get<{ products: any; number: any }>(
-      `${this.productUrl}/api/products/products`
+    return this.httpClient.get(
+      `${this.productUrl}/api/products`
     );
   }
 
@@ -110,7 +65,7 @@ export class ProductService {
 
   getProductById(id: any) {
     return this.httpClient.get<{ product: any }>(
-      `${this.productUrl}/api/products/products/${id}`
+      `${this.productUrl}/api/findproduct/${id}`
     );
   }
 
@@ -122,9 +77,11 @@ export class ProductService {
 
   deleteProduct(id: any) {
     return this.httpClient.delete<{ message: string }>(
-      `${this.productUrl}/api/products/delete/${id}`
+      `${this.productUrl}/api/deleteproduct/${id}`
     );
   }
+
+  
 
   searchByName(trainerObj: any) {
     return this.httpClient.post<{ findedProduct: any; message: string }>(
@@ -164,10 +121,10 @@ export class ProductService {
       product
     );
   }
-
+ 
   HomeProducts() {
-    return this.httpClient.get<{ product: any }>(
-      `${this.productUrl}/api/products/shop_home`
+    return this.httpClient.get(
+      `${this.productUrl}/api/product/latest`
     );
   }
 }

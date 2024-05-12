@@ -45,17 +45,17 @@
                         <tbody>
                             <tr *ngFor="let i of users  | filter: filterTerm | paginate: { itemsPerPage: 9, currentPage: p }">
                                 <td class="text-nowrap">
-                                    <div>{{i._id}}</div>
+                                    <div>{{i.id}}</div>
                                 </td>
-                                <td class="text-nowrap"> {{i.fname}}</td>
-                                <td class="text-nowrap">{{i.lname}}</td>
+                                <td class="text-nowrap"> {{i.name}}</td>
+                                <td class="text-nowrap">{{i.lastname}}</td>
                                 <td>{{i.email}}</td>
                                 <td>
-                                    <a (click)="GetUserByEmail(i.email)" style="cursor: pointer;color:#a0a5b1 ;" data-toggle="modal" data-target="#myModal">{{i.nbr}}</a>
+                                    <a (click)="GetUserByEmail(i.email)" style="cursor: pointer;color:#a0a5b1 ;" data-toggle="modal" data-target="#myModal">{{i.email}}</a>
                                 </td>
                                 <td>
                                     <a style="cursor: pointer;" (click)="EditUser(i.email)" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                    <a style="cursor: pointer;" (click)="Delete(i.email)" href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a style="cursor: pointer;" (click)="DeleteUser(i)" href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                     <a href="#" data-toggle="modal" data-target="#exampleModal" style="color: #666;"><i class="material-icons">group_add</i></a>
                                 </td>
 
@@ -112,7 +112,7 @@
                             </thead>
                             <tbody>
                                 <tr data-status="active " *ngFor="let j of order_user  | filter: filterTermm ">
-                                    <td>{{j._id}}</td>
+                                    <td>{{j.id}}</td>
                                    
                                     <td>
                                         <ul *ngFor="let p of j.products">

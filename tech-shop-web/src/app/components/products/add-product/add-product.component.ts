@@ -6,7 +6,7 @@ import { ProductService } from 'src/app/services/product.service';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.css']
+  styleUrls: ['./add-product.component.css'],
 })
 export class AddProductComponent implements OnInit {
   inc = 0;
@@ -19,221 +19,148 @@ export class AddProductComponent implements OnInit {
   f: any;
   ff: any;
   categoryForm: FormGroup = new FormGroup({
-    name_categorie: new FormControl(''),
-    categ : new FormControl('')
+    name: new FormControl(''),
+    categ: new FormControl(''),
   });
-  category: any ={};
+  category: any = {};
   productForm: FormGroup = new FormGroup({
     name: new FormControl(''),
-    price: new FormControl(''),
+    prix: new FormControl(''),
     categorie: new FormControl(''),
-    quantity: new FormControl(''),
+    quantityInStock: new FormControl(''),
     description: new FormControl(''),
-    img: new FormControl(''),
-    imgg: new FormControl(''),
-    solde: new FormControl(''),
-    remise: new FormControl(''),
-    detail: new FormControl('')
+    images: new FormControl(''),
+    //  imgg: new FormControl(''),
+    // solde: new FormControl(''),
+    // remise: new FormControl(''),
+    //  detail: new FormControl('')
     // new_price : new FormControl('')
   });
-  cat : any ;
-  number_category :any ;
-  
+  cat: any;
+  number_category: any;
+
+  imageFile : any ;
   constructor(
     private productService: ProductService,
     private formBuilder: FormBuilder,
     private router: Router,
     private fb: FormBuilder,
     private categoryService: CategoryService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-   
-   
     this.categoryForm = this.fb.group({
-      name_categorie: [''],
-      categ : ['']
-    })
+      name: [''],
+      categ: [''],
+    });
 
     this.productForm = this.formBuilder.group({
       name: [''],
-      price: [''],
+      prix: [''],
       categorie: [''],
-      quantity: [''],
+      quantityInStock: [''],
       description: [''],
-      img: [''],
-      imgg: [''],
-      solde: [''],
-      remise: [''],
-      detail: ['']
+      images: [''],
+      // imgg: [''],
+      // solde: [''],
+      // remise: [''],
+      // detail: ['']
       // new_price : ['']
-    })
-   
-    this.getAllCategory();
+    });
 
-  }
-  radio() {
-    console.log('hi !');
-    this.inc = this.inc + 1;
-    console.log(this.inc);
-    if (this.inc % 2 == 0) {
-      console.log('paire');
-      this.product.solde = true;
-    }
-    else {
-      this.product.solde = false;
-      this.product.remise = 0;
-    }
+    this.getAllCategory();
   }
 
   Addproduct() {
-    const categObj = this.category.categ ;
-    this.product.categorie = categObj ;
-    console.log('categooriii',categObj);
-    if (this.product.solde == undefined) {
-      this.product.solde = true;
-      // this.product.new_price =this.product.price - ((this.product.price * this.product.solde) / 100) ;
-    }
-    const v = this.checkData(this.product);
-    console.log('this is my img :', v);
-    console.log('this is product', this.product);
-    if (v == true) {
-      this.productService.addProduct(this.product, this.productForm.value.img).subscribe(
-        (data) => {
-          console.log('Here data from BE after add product', data.product);
-          this.productService.adMenu(data.product, this.productForm.value.imgg).subscribe(
-            (result) => {
-              console.log(result.product);
-              console.log(result.product.img, result.product.imgg);
-              this.productService.deleteProduct(data.product._id).subscribe(
-                (res) => {
-                  console.log(res.message);
-                    this.router.navigate(['products']);
-                }
-              )
-            }
-          )
+    const categObj = this.category.categ;
+    this.product.categorie = categObj;
 
-        }
-      );
-    }
-    else {
+    const v = this.checkData(this.product);
+
+    const formValues = this.product;
+
+  
+
+    const formData :FormData = new FormData()
+    formData.set('product', new Blob([JSON.stringify(formValues)],{type :'application/json'}))
+    formData.append("images",this.imageFile)
+
+
+    
+    console.log('this is product', this.imageFile);
+    if (v == true) {
+      this.productService
+        .addProduct(formData)
+        .subscribe((data) => {
+          console.log('Here data from BE after add product', data);
+        });
+    } else {
       console.log('error');
     }
   }
 
   addCategory() {
-      console.log('Add Category :', this.category.name_categorie);
-      this.categoryService.AddCategory(this.category).subscribe(
-        (data) => {
-          console.log(data.message);
-          this.ngOnInit();
-        }
-      )
-    }
+    console.log('Add Category :', this.category.name);
+    this.categoryService.AddCategory(this.category).subscribe((data) => {
+      console.log(data.message);
+      this.ngOnInit();
+    });
+  }
 
-    getAllCategory(){
-      console.log('get all categorys');
-      this.categoryService.allCategory().subscribe(
-        (data)=>{
-          this.cat = data.category;
-          this.number_category = data.nbr;
-          console.log('caaaaa:',this.cat);
-        }
-      )
-    }
-  
+  getAllCategory() {
+    console.log('get all categorys');
+    this.categoryService.allCategory().subscribe((data) => {
+      this.cat = data;
+      //this.number_category = data.nbr;
+    });
+  }
 
-    counter(i: number) {
-      return new Array(i);
-    }
+  counter(i: number) {
+    return new Array(i);
+  }
   checkData(product: any) {
     var valide = true;
     console.log(valide);
     if (product.name == undefined) {
-      this.msg = "Name is required !";
+      this.msg = 'Name is required !';
       valide = false;
       this.ok = valide;
-    }
-    else if (product.price == undefined) {
-      this.msg = "Price is required !";
+    } else if (product.prix == undefined) {
+      this.msg = 'Price is required !';
       valide = false;
       this.ok = false;
-    }
-    else if (product.categorie == undefined) {
-      this.msg = "Category is required !";
+    } 
+    else if (product.quantityInStock == undefined) {
+      this.msg = 'Quantity is required !';
       valide = false;
       this.ok = valide;
-    }
-    else if (product.quantity == undefined) {
-      this.msg = "Quantity is required !";
+    } else if (product.description == undefined) {
+      this.msg = 'Description is required !';
       valide = false;
       this.ok = valide;
-    }
-    else if (product.description == undefined) {
-      this.msg = "Description is required !";
+    } else if (this.f == '' || this.f == undefined) {
+      this.msg = 'Photo 1 is required !';
       valide = false;
       this.ok = valide;
-    }
-    else if (product.detail == undefined) {
-      this.msg = "Detail is required !";
-      valide = false;
-      this.ok = valide;
-    }
-    else if (this.f == "" || this.f == undefined) {
-      this.msg = "Photo 1 is required !";
-      valide = false;
-      this.ok = valide;
-    }
-    else if (this.ff == "" || this.ff == undefined) {
-      this.msg = "Photo 2 is required !";
-      valide = false;
-      this.ok = valide;
-    }
-    else {
+    } else {
       valide = true;
     }
     return valide;
   }
 
   onImageSelected(event: Event) {
-
     const file = (event.target as HTMLInputElement)?.files?.[0];
     this.f = file;
     this.productForm.patchValue({ img: file });
     this.productForm.updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
-      this.imagePreview = reader.result as string
+      this.imagePreview = reader.result as string;
+      this.imageFile = file;
       console.log('image 1', file);
     };
     if (file) {
       reader.readAsDataURL(file);
-    }
-  }
-
-
-
-  onImageSelectedd(event: Event) {
-    const filee = (event.target as HTMLInputElement)?.files?.[0];
-    this.ff = filee;
-    this.productForm.patchValue({ imgg: filee });
-    console.log('filee', filee);
-    this.productForm.updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePrevieww = reader.result as string;
-      console.log('image 2', this.imagePrevieww);
-    };
-    if (filee) {
-      reader.readAsDataURL(filee);
-
-    }
-  }
-
-
-
+    }
+  }
 }
-
-
-

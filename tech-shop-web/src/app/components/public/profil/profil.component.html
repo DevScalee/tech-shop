@@ -27,7 +27,7 @@
               </h3>
               <!-- End .summary-title -->
               <h6>Name :</h6>
-              <p>{{ user.fname }} {{ user.lname }}</p>
+              <p>{{ user.name }} {{ user.lastnale }}</p>
               <br />
               <h6>Email Adress :</h6>
               <p>{{ user.email }}</p>
@@ -36,16 +36,16 @@
               <p>{{ user.city }}</p>
               <br />
               <h6>State/Country :</h6>
-              <p>{{ user.country }}</p>
+              <p>{{ user.address }}</p>
               <br />
               <h6>Postcode :</h6>
-              <p>{{ user.postcode }}</p>
+              <p>2096</p>
               <br />
               <h6>Phone Number :</h6>
-              <p>{{ user.phone }}</p>
+              <p>{{ user.phoneNumber }}</p>
               <br />
               <p>
-                <a routerLink="/edit-user" (click)="EditUser(user._id)"
+                <a routerLink="/edit-user" (click)="EditUser(user.id)"
                   >Edit <i class="icon-edit"></i
                 ></a>
               </p>

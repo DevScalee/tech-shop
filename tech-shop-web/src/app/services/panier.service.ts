@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class PanierService {
-  panierUrl: string = 'http://localhost:3001';
+  panierUrl: string = 'http://localhost:9050';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -22,11 +22,16 @@ export class PanierService {
     );
   }
 
-  AddPanier(product: any) {
-    return this.httpClient.post<{ panier: any; message: any }>(
-      `${this.panierUrl}/api/panier/product/add`,
-      product
-    );
+  // AddPanier(product: any) {
+  //   return this.httpClient.post<{ panier: any; message: any }>(
+  //     `${this.panierUrl}/api/panier/product/add`,
+  //     product
+  //   );
+  // }
+
+  AddPanier(product:any) {
+    const url = `${this.panierUrl}/api/cart/1/products/${product.id}?quantity=2`;
+    return this.httpClient.post<{ panier: any; message: any }>(url, product);
   }
 
   AddCart(product: any) {

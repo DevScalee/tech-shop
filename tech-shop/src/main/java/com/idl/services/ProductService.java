@@ -21,4 +21,6 @@ public interface ProductService {
 	Category editCategory(Long id,Category category) throws Exception;
 
 	Product addProduct(Product product);
+
+	public List<Product> getLatestProducts() ;
 }

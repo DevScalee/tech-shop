@@ -119,7 +119,9 @@
                             (click)="viewProduct(i._id)"
                             class="product-image"
                           >
-                            <img src="{{ i.img }}" alt="product" />
+                            <img
+                            [src]="'data:image/jpeg;base64,' + i.img[0]"
+                             alt="product" />
                           </a>
                         </figure>
                       </div>

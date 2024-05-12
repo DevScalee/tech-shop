@@ -50,17 +50,18 @@
                 >
                   <div class="product product-7 text-center">
                     <figure class="product-media">
-                      <span class="product-label label-new" *ngIf="i.solde"
-                        >{{ i.remise }} %</span
-                      >
+                    
+                      
                       <div style="cursor: pointer">
+                       
+                       
                         <img
-                          src="{{ i.img }}"
+                        [src]="'data:image/jpeg;base64,' + i.img[0]" 
                           alt="Product image"
                           class="product-image"
                         />
                         <img
-                          src="{{ i.imgg }}"
+                        [src]="'data:image/jpeg;base64,' + i.img[0]" 
                           alt="Product image"
                           class="product-image-hover"
                         />
@@ -74,7 +75,7 @@
                         > -->
                         <a
                           style="cursor: pointer"
-                          (click)="viewProduct(i._id)"
+                          (click)="viewProduct(i.id)"
                           class="btn-product-icon btn-quickview"
                           title="Quick view"
                           ><span>Quick view</span></a
@@ -103,13 +104,9 @@
                         <a href="product.html">{{ i.name }}</a>
                       </h3>
                       <!-- End .product-title -->
-                      <div class="product-price" *ngIf="i.solde">
-                        <span class="new-price">Now ${{ i.new_price }}</span>
-                        <span class="old-price">Was ${{ i.price }}</span>
-                      </div>
-
-                      <div class="product-price" *ngIf="!i.solde">
-                        ${{ i.price }}
+                    
+                      <div class="product-price">
+                        ${{ i.prix }}
                       </div>
                       <!-- End .product-price -->
                     </div>
@@ -154,7 +151,7 @@
                     aria-expanded="true"
                     aria-controls="widget-1"
                   >
-                    Category
+                    Categorie
                   </a>
                 </h3>
                 <!-- End .widget-title -->

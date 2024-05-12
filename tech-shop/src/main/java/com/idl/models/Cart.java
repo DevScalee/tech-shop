@@ -1,4 +1,5 @@
 package com.idl.models;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 
@@ -24,7 +25,7 @@ public class Cart {
 	@Column(name="cartId")
 	private Long id;
 	
-
+    @JsonBackReference
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;

@@ -191,7 +191,7 @@ public class UserDetailsImpl implements UserService,UserDetails {
 	}
 	
 	@Override
-	public User updateUser(Long id,User user) throws Exception {
+	public User updateUser(User user , Long id) throws Exception {
 	    Optional<User> existingUserOptional = userRepository.findById(id);
 
 	    if (existingUserOptional.isPresent()) {

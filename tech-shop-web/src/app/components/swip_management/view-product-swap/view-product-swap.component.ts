@@ -85,7 +85,7 @@ export class ViewProductSwapComponent implements OnInit {
   getUser(id: any) {
     console.log('Here In Get User In Profil');
     this.userService.getUserById(id).subscribe((data) => {
-      this.user = data.user;
+      this.user = data;
       this.avispro.name = this.user.fname + ' ' + this.user.lname;
       console.log('this is user :', this.user);
     });

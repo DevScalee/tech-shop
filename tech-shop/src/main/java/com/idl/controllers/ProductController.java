@@ -1,5 +1,7 @@
 package com.idl.controllers;
 
+import com.idl.models.User;
+import com.idl.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,8 @@ import java.util.Optional;
 @CrossOrigin(origins="*", maxAge=3600)
 @RequestMapping("/api")
 public class ProductController {
-	
+	@Autowired
+	private ProductRepository productRepository;
 	 @Autowired
 	    private ProductService productService;
 
@@ -50,7 +53,7 @@ public class ProductController {
 	       product.setImg(images);
 	        return productService.saveProduct(product);
 	    }
-	    
+
 	@PostMapping("/add")
 	public ResponseEntity<Product> addProduct(@RequestBody Product product) {
 		Product addedProduct = productService.addProduct(product);
@@ -63,18 +66,33 @@ public class ProductController {
 	    	productService.deleteProduct(id);
 	    	return new ResponseEntity<>(HttpStatus.OK);
 	    }
-	    
-	    @PutMapping("/updateproduct/{id}")
-	    public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody Product product)
-	    {
-	    	 try {
-	             Product editedProduct = productService.editProduct(id,product);
-	             return ResponseEntity.ok(editedProduct);
-	         } catch (Exception e) {
-	             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
-	         }
-	    	
-	    }
+
+	@GetMapping("/findproduct/{id}")
+	public Optional<Product> findProduct (@PathVariable Long id )
+
+	{
+		return productRepository.findProductById(id);
+	}
+
+
+
+	@PutMapping("/updateproduct/{id}")
+	public ResponseEntity<?> updateProduct(@PathVariable Long id,
+										   @RequestPart Product product,
+										   @RequestPart("images") List<MultipartFile> files) {
+		try {
+			List<byte[]> images = new ArrayList<>();
+			for (MultipartFile file : files) {
+				images.add(file.getBytes());
+			}
+			product.setImg(images);
+
+			Product editedProduct = productService.editProduct(id, product);
+			return ResponseEntity.ok(editedProduct);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+		}
+	}
 	    
 	    @GetMapping("/product/search")
 		public ResponseEntity<?> searProducts(@RequestParam String searchTerm) {
@@ -120,5 +138,13 @@ public class ProductController {
 		productService.deleteCategory(categoryId);
 		return ResponseEntity.ok("Category with ID " + categoryId + " has been deleted successfully.");
 	}
+
+	@GetMapping("/product/latest")
+	public ResponseEntity<List<Product>> getLatestProducts() {
+		List<Product> latestProducts = productRepository.findTop6ByOrderByIdDesc();
+		return new ResponseEntity<>(latestProducts, HttpStatus.OK);
+	}
+
+
 
 }
