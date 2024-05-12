@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class WhishlistService {
-  wishlistUrl: string = 'http://localhost:3001';
+  wishlistUrl: string = 'http://localhost:9050';
 
   constructor(private httpClient: HttpClient) {}
 
