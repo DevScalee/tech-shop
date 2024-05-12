@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class FeedbackService {
-  feedbackUrl: string = 'http://localhost:3001';
+  feedbackUrl: string = 'http://localhost:9050';
 
   constructor(private httpClient: HttpClient) {}
 
